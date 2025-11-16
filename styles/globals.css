@@ -1,0 +1,321 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Sonner Toast 중앙 배치 및 스타일링 */
+[data-sonner-toaster] {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 9999 !important;
+  width: auto !important;
+  max-width: 90vw !important;
+}
+
+[data-sonner-toast] {
+  background: white !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 1rem !important;
+  padding: 1.2rem 1.5rem !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+  min-width: 300px !important;
+  max-width: 500px !important;
+}
+
+[data-sonner-toast][data-type="success"] {
+  border-left: 4px solid var(--main-color) !important;
+}
+
+[data-sonner-toast][data-type="error"] {
+  border-left: 4px solid #ef4444 !important;
+}
+
+[data-sonner-toast][data-type="warning"] {
+  border-left: 4px solid #f59e0b !important;
+}
+
+[data-sonner-toast][data-type="info"] {
+  border-left: 4px solid #3b82f6 !important;
+}
+
+:root {
+  --main-color: #00cc8e;
+  --sub-color: #3b82f6;
+  --accent-color: #ff7043; /* 부드러운 오렌지 컬러 */
+  --black: #000000;
+  --white: #ffffff;
+  --gray: #71717b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* 텍스트 선택 하이라이트 활성화 */
+::selection {
+  background-color: var(--main-color);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: var(--main-color);
+  color: #ffffff;
+}
+
+/* 커서 스타일 */
+a,
+button,
+input,
+textarea,
+select,
+[role="button"],
+[tabindex] {
+  cursor: pointer;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea {
+  cursor: text;
+}
+
+/* 포커스 시 outline 활성화 (접근성 향상) */
+*:focus-visible {
+  outline: 2px solid var(--main-color);
+  outline-offset: 2px;
+}
+
+body {
+  margin: 0;
+  font-family: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f9fafb;
+  overflow-x: hidden;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--black);
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--black);
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--black);
+}
+
+p {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--gray);
+}
+
+strong {
+  font-weight: 600;
+}
+
+/* 최소 padding 보장 */
+button {
+  font-weight: 500;
+  line-height: 1.5;
+  padding: 1.2rem !important;
+  min-height: 2.5rem;
+  border-radius: 1rem !important;
+}
+
+input,
+textarea,
+select {
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 1.5rem !important;
+  min-height: 2.5rem;
+  border-color: #d4d4d4 !important;
+  border-radius: 1rem !important;
+}
+
+/* Select 옵션 스타일링 */
+select option {
+  padding: 0.5rem;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+/* 기본: 모바일 전용 요소 숨김 */
+.mobile-only {
+  display: none !important;
+}
+
+/* ===== 크로스 브라우징: 3가지 디바이스 타입 ===== */
+
+/* 1. 모바일: 767px 이하 */
+@media (max-width: 767px) {
+  .mobile-hide {
+    display: none !important;
+  }
+
+  .tablet-hide {
+    display: block !important;
+  }
+
+  /* 모바일에서만 표시 */
+  .mobile-only {
+    display: flex !important;
+  }
+
+  /* 모바일 타이포그래피 확대 - 모두 두 단계씩 증가 */
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 1.375rem;
+  }
+
+  button {
+    padding: 1.5rem !important;
+  }
+
+  /* 인풋박스 확대 */
+  input,
+  textarea,
+  select {
+    padding: 0.875rem !important;
+    min-height: 3.5rem;
+  }
+
+  /* 셀렉트 옵션도 동일한 크기로 */
+  select option {
+    padding: 0.875rem !important;
+    min-height: 3.5rem;
+  }
+
+  /* 탭 메뉴 확대 */
+  [role="tablist"] button {
+    padding: 1rem 1.75rem !important;
+  }
+
+  /* 모바일 레이아웃 원칙: 3개 이하만 가로, 그 이상은 세로 중앙 정렬 */
+  .mobile-stack {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 1rem !important;
+  }
+
+  .mobile-stack > * {
+    width: 100% !important;
+  }
+
+  /* 버튼 그룹은 중앙 정렬 */
+  .mobile-center-buttons {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+  }
+
+  .mobile-center-buttons > * {
+    width: 100% !important;
+    max-width: 400px;
+  }
+}
+
+/* AI 견적 도우미 버튼 스타일 */
+.ai-button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+}
+
+.ai-helper-button {
+  transition: all 0.3s ease;
+}
+
+.ai-helper-button:hover:not(:disabled) {
+  background-color: var(--main-color) !important;
+  color: var(--white) !important;
+  border-color: var(--main-color) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.ai-helper-button:hover:not(:disabled) svg {
+  color: var(--white) !important;
+}
+
+/* 두 번째 버튼(검토 요청)은 블루 호버 */
+.ai-helper-button:nth-child(2):hover:not(:disabled) {
+  background-color: var(--sub-color) !important;
+  border-color: var(--sub-color) !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.ai-helper-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 450px 이하에서는 세로 나열 */
+@media (max-width: 450px) {
+  .ai-button-container {
+    flex-direction: column;
+  }
+}
+
+/* ===== 인쇄 스타일 ===== */
+@media print {
+}
