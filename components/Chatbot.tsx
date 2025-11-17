@@ -32,15 +32,19 @@ export function Chatbot() {
 
   // 메시지 추가 시 스크롤을 맨 아래로
   useEffect(() => {
-    if (scrollAreaRef.current) {
-      const scrollContainer = scrollAreaRef.current.querySelector(
-        "[data-radix-scroll-area-viewport]"
-      );
-      if (scrollContainer) {
-        scrollContainer.scrollTop = scrollContainer.scrollHeight;
-      }
-    }
-  }, [messages]);
+    if (!scrollAreaRef.current) return;
+    const scrollContainer = scrollAreaRef.current.querySelector(
+      "[data-radix-scroll-area-viewport]"
+    ) as HTMLElement | null;
+    if (!scrollContainer) return;
+
+    requestAnimationFrame(() => {
+      scrollContainer.scrollTo({
+        top: scrollContainer.scrollHeight,
+        behavior: "smooth",
+      });
+    });
+  }, [messages, isOpen]);
 
   // 챗봇 열릴 때 입력창 포커스
   useEffect(() => {
