@@ -1384,9 +1384,9 @@ export const generateCustomerNoticeHTML = async (
           }
           
           .sections-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
           }
           
           .terms h4 { 
@@ -1466,8 +1466,7 @@ export const generateCustomerNoticeHTML = async (
             }
             
             .sections-grid {
-              grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-              gap: 0.75rem !important;
+              gap: 0.5rem !important;
             }
             
             .terms h4 {
