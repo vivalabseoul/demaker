@@ -469,6 +469,8 @@ export const generateQuoteHTML = async (quote: Quote): Promise<string> => {
             border-bottom: 2px solid #000;
             color: #000;
             text-align: center;
+            page-break-after: avoid;
+            break-after: avoid-page;
           }
           
           .terms h5 {
@@ -478,7 +480,7 @@ export const generateQuoteHTML = async (quote: Quote): Promise<string> => {
             margin-bottom: 0.5rem;
             color: #000;
             page-break-after: avoid;
-            break-after: avoid;
+            break-after: avoid-page;
           }
           
           .terms p { 
@@ -503,7 +505,7 @@ export const generateQuoteHTML = async (quote: Quote): Promise<string> => {
           .terms .section {
             margin-bottom: 1rem;
             page-break-inside: avoid;
-            break-inside: avoid;
+            break-inside: avoid-page;
           }
           
           .payment-info-section {
