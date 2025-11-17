@@ -126,7 +126,7 @@ export function LandingPage({ onLoginClick, onGetStarted }: LandingPageProps) {
   ];
 
   const benefits = [
-    "첫 견적서 무료 발급",
+    "베타 테스터 3회 무료 발급",
     "간편한 템플릿 기반 작성",
     "자동 금액 계산",
     "거래처 정보 자동 저장",
@@ -760,7 +760,7 @@ export function LandingPage({ onLoginClick, onGetStarted }: LandingPageProps) {
             지금 바로 시작하세요
           </h2>
           <p className="text-xl mb-8" style={{ color: "#D6D3D1" }}>
-            첫 견적서는 무료로 발급할 수 있습니다
+            베타 기간 동안 주 3회까지 무료로 발급해 보세요
           </p>
           <Button
             onClick={onGetStarted}

@@ -912,7 +912,10 @@ export const generateQuoteHTML = async (quote: Quote): Promise<string> => {
             <span>공급가</span>
             <span>${formatCurrency(
               quote.supplyAmount ||
-                quote.subtotal + quote.expenseAmount + (quote.technicalFeeAmount || 0) - totalDiscount
+                quote.subtotal +
+                  quote.expenseAmount +
+                  (quote.technicalFeeAmount || 0) -
+                  totalDiscount
             )}원</span>
           </div>
           ${

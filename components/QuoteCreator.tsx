@@ -905,7 +905,7 @@ export function QuoteCreator({
     }
 
     try {
-      // 구독 사용 횟수 확인 (첫 견적서 무료 포함)
+      // 베타 무료 사용분 / 구독 사용 횟수 확인
       const quotaInfo = await checkQuota();
       if (!quotaInfo.available) {
         toast.error(
@@ -914,9 +914,10 @@ export function QuoteCreator({
         return;
       }
 
-      // 첫 견적서 무료 안내
-      if (quotaInfo.isFirstQuote) {
-        toast.info("🎉 회원가입 축하합니다! 첫 견적서는 무료로 발급됩니다.");
+      if (quotaInfo.benefitType === "beta") {
+        toast.info(
+          `베타 테스트 무료 이용 ${quotaInfo.remaining}/${quotaInfo.total}회 남았습니다.`
+        );
       }
 
       let quote: Quote;

@@ -17,7 +17,8 @@ import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import {
   getActiveSubscription,
-  checkFirstQuoteAvailable,
+  getBetaQuotaStatus,
+  BetaQuotaStatus,
 } from "../utils/supabaseSubscription";
 
 interface SidebarProps {
@@ -36,7 +37,7 @@ export function Sidebar({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [subscription, setSubscription] = useState<any>(null);
   const [loadingSubscription, setLoadingSubscription] = useState(false);
-  const [isFirstQuoteAvailable, setIsFirstQuoteAvailable] = useState(false);
+  const [betaStatus, setBetaStatus] = useState<BetaQuotaStatus | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -49,16 +50,16 @@ export function Sidebar({
   const loadSubscription = async () => {
     try {
       setLoadingSubscription(true);
-      const [activeSub, firstQuote] = await Promise.all([
+      const [activeSub, beta] = await Promise.all([
         getActiveSubscription(),
-        checkFirstQuoteAvailable(),
+        getBetaQuotaStatus(),
       ]);
       setSubscription(activeSub);
-      setIsFirstQuoteAvailable(firstQuote);
+      setBetaStatus(beta);
     } catch (error) {
       console.error("Failed to load subscription:", error);
       setSubscription(null);
-      setIsFirstQuoteAvailable(false);
+      setBetaStatus(null);
     } finally {
       setLoadingSubscription(false);
     }
@@ -146,7 +147,7 @@ export function Sidebar({
               >
                 {user.email}
               </p>
-              {isFirstQuoteAvailable && (
+              {betaStatus && betaStatus.remaining > 0 && (
                 <div
                   className="mt-3 p-3 rounded-lg"
                   style={{
@@ -158,11 +159,16 @@ export function Sidebar({
                     className="text-xs mb-2"
                     style={{ color: "var(--main-color)", fontWeight: 600 }}
                   >
-                    🎉 첫 견적서 무료
+                    🚀 베타 무료 이용
                   </div>
                   <div className="text-xs" style={{ color: "#D6D3D1" }}>
-                    회원가입 축하합니다! 첫 견적서는 무료로 발급됩니다.
+                    {betaStatus.remaining} / {betaStatus.total}회 남았습니다
                   </div>
+                  {betaStatus.resetAt && (
+                    <div className="text-[11px] mt-1" style={{ color: "#71717B" }}>
+                      리셋 예정: {new Date(betaStatus.resetAt).toLocaleDateString("ko-KR")}
+                    </div>
+                  )}
                 </div>
               )}
               {subscription && (
@@ -223,7 +229,7 @@ export function Sidebar({
                 </div>
               )}
               {!subscription &&
-                !isFirstQuoteAvailable &&
+                !(betaStatus && betaStatus.remaining > 0) &&
                 !loadingSubscription &&
                 user && (
                   <div

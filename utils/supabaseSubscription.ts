@@ -1,6 +1,29 @@
 import { supabase, getCurrentUserId } from './supabase';
 import { Subscription, ProductId } from '../types/payment';
 
+const BETA_FREE_LIMIT = 3;
+const BETA_PERIOD_DAYS = 7;
+const BETA_PERIOD_MS = BETA_PERIOD_DAYS * 24 * 60 * 60 * 1000;
+
+export type QuotaBenefitType = 'beta' | 'subscription';
+
+export interface BetaQuotaStatus {
+  available: boolean;
+  remaining: number;
+  total: number;
+  used: number;
+  periodStart: string | null;
+  resetAt: string | null;
+}
+
+export interface QuotaInfo {
+  available: boolean;
+  remaining: number;
+  total: number;
+  benefitType?: QuotaBenefitType;
+  beta?: BetaQuotaStatus;
+}
+
 // 구독 정보 저장
 export const saveSubscription = async (
   productId: ProductId,
@@ -141,14 +164,11 @@ export const updateSubscriptionStatus = async (
   }
 };
 
-// 사용 횟수 증가 (첫 견적서 무료 처리 포함)
+// 사용 횟수 증가 (베타 무료 사용분 선차감)
 export const incrementUsage = async (): Promise<boolean> => {
-  // 첫 견적서 무료 확인
-  const isFirstQuoteAvailable = await checkFirstQuoteAvailable();
-  if (isFirstQuoteAvailable) {
-    // 첫 견적서 사용 처리
-    await useFirstQuote();
-    return true; // 첫 견적서는 무료로 발급
+  const betaIncremented = await incrementBetaUsage();
+  if (betaIncremented) {
+    return true;
   }
 
   const subscription = await getActiveSubscription();
@@ -182,79 +202,147 @@ export const incrementUsage = async (): Promise<boolean> => {
   }
 };
 
-// 첫 견적서 사용 가능 여부 확인
-export const checkFirstQuoteAvailable = async (): Promise<boolean> => {
+// 베타 무료 사용량 상태 조회
+export const getBetaQuotaStatus = async (): Promise<BetaQuotaStatus> => {
   const userId = await getCurrentUserId();
   if (!userId) {
-    return false;
+    return {
+      available: false,
+      remaining: 0,
+      total: BETA_FREE_LIMIT,
+      used: 0,
+      periodStart: null,
+      resetAt: null,
+    };
   }
+
+  const now = new Date();
+  let used = 0;
+  let periodStart: Date | null = null;
 
   try {
     const { data, error } = await supabase
       .from('users')
-      .select('first_quote_used')
+      .select('beta_free_used, beta_period_started_at')
       .eq('id', userId)
       .single();
 
-    if (error) {
-      if (error.code === 'PGRST116') {
-        return false;
-      }
-      console.error('❌ Error checking first quote:', error);
-      return false;
+    if (error && error.code !== 'PGRST116') {
+      console.error('❌ Error fetching beta usage:', error);
     }
 
-    return data?.first_quote_used === false;
+    used = data?.beta_free_used ?? 0;
+    periodStart = data?.beta_period_started_at
+      ? new Date(data.beta_period_started_at)
+      : null;
   } catch (error: any) {
-    console.error('❌ Error in checkFirstQuoteAvailable:', error);
-    return false;
+    console.error('❌ Error in getBetaQuotaStatus:', error);
+  }
+
+  if (!periodStart || now.getTime() - periodStart.getTime() >= BETA_PERIOD_MS) {
+    periodStart = now;
+    used = 0;
+    await resetBetaUsage(userId, periodStart, used);
+  }
+
+  const remaining = Math.max(BETA_FREE_LIMIT - used, 0);
+  const resetAt = periodStart
+    ? new Date(periodStart.getTime() + BETA_PERIOD_MS)
+    : null;
+
+  return {
+    available: remaining > 0,
+    remaining,
+    total: BETA_FREE_LIMIT,
+    used,
+    periodStart: periodStart?.toISOString() ?? null,
+    resetAt: resetAt?.toISOString() ?? null,
+  };
+};
+
+const resetBetaUsage = async (
+  userId: string,
+  periodStart: Date,
+  used: number,
+) => {
+  try {
+    await supabase
+      .from('users')
+      .update({
+        beta_free_used: used,
+        beta_period_started_at: periodStart.toISOString(),
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', userId);
+  } catch (error) {
+    console.error('❌ Error resetting beta usage:', error);
   }
 };
 
-// 첫 견적서 사용 처리
-export const useFirstQuote = async (): Promise<boolean> => {
+const incrementBetaUsage = async (): Promise<boolean> => {
   const userId = await getCurrentUserId();
   if (!userId) {
     return false;
   }
+
+  const betaStatus = await getBetaQuotaStatus();
+  if (!betaStatus.available) {
+    return false;
+  }
+
+  const now = new Date();
+  const periodStart = betaStatus.periodStart
+    ? new Date(betaStatus.periodStart)
+    : now;
+  const nextUsed = Math.min(
+    betaStatus.total,
+    betaStatus.total - betaStatus.remaining + 1,
+  );
 
   try {
     const { error } = await supabase
       .from('users')
       .update({
-        first_quote_used: true,
-        updated_at: new Date().toISOString()
+        beta_free_used: nextUsed,
+        beta_period_started_at: periodStart.toISOString(),
+        updated_at: now.toISOString(),
       })
       .eq('id', userId);
 
     if (error) {
-      console.error('❌ Error using first quote:', error);
+      console.error('❌ Error incrementing beta usage:', error);
       return false;
     }
 
     return true;
-  } catch (error: any) {
-    console.error('❌ Error in useFirstQuote:', error);
+  } catch (error) {
+    console.error('❌ Error in incrementBetaUsage:', error);
     return false;
   }
 };
 
-// 사용 가능한 횟수 확인 (첫 견적서 무료 포함)
-export const checkQuota = async (): Promise<{ available: boolean; remaining: number; total: number; isFirstQuote?: boolean }> => {
-  // 첫 견적서 무료 확인
-  const isFirstQuoteAvailable = await checkFirstQuoteAvailable();
-  if (isFirstQuoteAvailable) {
+// 사용 가능한 횟수 확인 (베타 무료 포함)
+export const checkQuota = async (): Promise<QuotaInfo> => {
+  const betaStatus = await getBetaQuotaStatus();
+  if (betaStatus.available) {
     return {
       available: true,
-      remaining: 1,
-      total: 1,
-      isFirstQuote: true,
+      remaining: betaStatus.remaining,
+      total: betaStatus.total,
+      benefitType: 'beta',
+      beta: betaStatus,
     };
   }
 
   const subscription = await getActiveSubscription();
   if (!subscription) {
-    return { available: false, remaining: 0, total: 0, isFirstQuote: false };
+    return {
+      available: false,
+      remaining: betaStatus.remaining,
+      total: betaStatus.total,
+      benefitType: undefined,
+      beta: betaStatus,
+    };
   }
 
   const remaining = subscription.quota - subscription.usedQuota;
@@ -262,7 +350,8 @@ export const checkQuota = async (): Promise<{ available: boolean; remaining: num
     available: remaining > 0,
     remaining,
     total: subscription.quota,
-    isFirstQuote: false,
+    benefitType: 'subscription',
+    beta: betaStatus,
   };
 };
 
