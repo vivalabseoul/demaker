@@ -40,10 +40,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 // 이미지 import (public 폴더의 이미지 사용)
-const mocupImage = "/images/mocup.png";
-const mocup2Image = "/images/mocup2.png";
-const gmainImage = "/images/gmain.jpg";
-const gmain2Image = "/images/gmain2.jpg";
+// import.meta.env.BASE_URL을 사용하여 base path를 자동으로 포함
+const baseUrl = import.meta.env.BASE_URL || '/';
+const mocupImage = `${baseUrl}images/mocup.png`;
+const mocup2Image = `${baseUrl}images/mocup2.png`;
+const gmainImage = `${baseUrl}images/gmain.jpg`;
+const gmain2Image = `${baseUrl}images/gmain2.jpg`;
 
 interface LandingPageProps {
   onLoginClick: () => void;

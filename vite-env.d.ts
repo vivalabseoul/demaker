@@ -11,6 +11,7 @@ interface ImportMetaEnv {
 
 interface ImportMeta {
   readonly env: ImportMetaEnv;
+  readonly BASE_URL: string;
 }
 
 // 이미지 파일 타입 정의
