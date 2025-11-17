@@ -14,6 +14,7 @@ import { AuthDialog } from './components/AuthPage';
 import { AuthPageMobile } from './components/AuthPageMobile';
 import { ScrollToTop } from './components/ScrollToTop';
 import { Footer } from './components/Footer';
+import { Chatbot } from './components/Chatbot';
 import { onAuthChange } from './utils/supabase';
 import { Toaster } from './components/ui/sonner';
 import { toast } from 'sonner';
@@ -232,6 +233,9 @@ export default function App() {
       
       {/* Scroll to top button */}
       <ScrollToTop />
+      
+      {/* AI Chatbot - 로그인한 사용자에게만 표시 */}
+      {user && <Chatbot />}
       
       <Toaster />
       
