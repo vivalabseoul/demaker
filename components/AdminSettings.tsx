@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Trash2, Download, Upload, Save, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Plus, Trash2, Download, Upload, Save, ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -54,6 +54,18 @@ export function AdminSettings() {
 
   const handleDeleteRate = (id: string) => {
     setRates(rates.filter(rate => rate.id !== id));
+  };
+
+  const handleResetAllRates = () => {
+    if (rates.length === 0) {
+      toast.info('삭제할 노임이 없습니다.');
+      return;
+    }
+
+    if (confirm(`정말로 모든 노임(${rates.length}개)을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`)) {
+      setRates([]);
+      toast.success('모든 노임이 삭제되었습니다. 저장 버튼을 클릭하여 변경사항을 적용하세요.');
+    }
   };
 
   const handleSave = async () => {
@@ -140,14 +152,28 @@ export function AdminSettings() {
         <CardHeader className="flex-shrink-0">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <h3>노임 목록</h3>
-            <Button
-              onClick={handleAddRate}
-              size="sm"
-              style={{ backgroundColor: 'var(--main-color)', color: 'var(--white)' }}
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              노임 추가
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                onClick={handleAddRate}
+                size="sm"
+                style={{ backgroundColor: 'var(--main-color)', color: 'var(--white)' }}
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                노임 추가
+              </Button>
+              <Button
+                onClick={handleResetAllRates}
+                size="sm"
+                variant="outline"
+                style={{ 
+                  borderColor: '#ef4444',
+                  color: '#ef4444',
+                }}
+              >
+                <RotateCcw className="w-4 h-4 mr-2" />
+                노임 초기화
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="flex flex-col flex-1 min-h-0 overflow-hidden">
