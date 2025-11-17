@@ -42,6 +42,8 @@ export const saveOurCompany = async (company: CompanyInfo): Promise<void> => {
         phone: company.phone,
         email: company.email,
         registration_number: company.registrationNumber,
+        expense_rate: company.expenseRate || null,
+        technical_fee_rate: company.technicalFeeRate || null,
         updated_at: new Date().toISOString()
       }, {
         onConflict: 'user_id'
@@ -236,7 +238,9 @@ export const getOurCompany = async (): Promise<CompanyInfo | null> => {
         address: data.address || '',
         phone: data.phone || '',
         email: data.email || '',
-        registrationNumber: data.registration_number || ''
+        registrationNumber: data.registration_number || '',
+        expenseRate: data.expense_rate || undefined,
+        technicalFeeRate: data.technical_fee_rate || undefined
       };
     }
 
@@ -254,7 +258,9 @@ const getDefaultCompanyInfo = (): CompanyInfo => ({
   address: '서울특별시 강남구 테헤란로 123',
   phone: '02-1234-5678',
   email: 'contact@techsolution.co.kr',
-  registrationNumber: '123-45-67890'
+  registrationNumber: '123-45-67890',
+  expenseRate: 10,
+  technicalFeeRate: undefined
 });
 
 // ======================
@@ -413,6 +419,8 @@ export const getQuotes = async (limitCount?: number): Promise<Quote[]> => {
         subtotal: quote.subtotal,
         expenseRate: quote.expense_rate || 10,
         expenseAmount: quote.expense_amount || 0,
+        technicalFeeRate: quote.technical_fee_rate || undefined,
+        technicalFeeAmount: quote.technical_fee_amount || undefined,
         discounts: (quote.discount as any) || [],
         totalDiscount: quote.total_discount || 0,
         totalAmount: quote.total_amount,
@@ -469,6 +477,8 @@ export const saveQuote = async (quote: Quote): Promise<void> => {
       subtotal: quote.subtotal,
       expense_rate: quote.expenseRate,
       expense_amount: quote.expenseAmount,
+      technical_fee_rate: quote.technicalFeeRate || null,
+      technical_fee_amount: quote.technicalFeeAmount || null,
       discount: quote.discounts || [],
       total_discount: quote.totalDiscount || 0,
       total_amount: quote.totalAmount,
@@ -534,6 +544,8 @@ export const saveQuotesBatch = async (quotes: Quote[]): Promise<void> => {
         subtotal: quote.subtotal,
         expense_rate: quote.expenseRate,
         expense_amount: quote.expenseAmount,
+        technical_fee_rate: quote.technicalFeeRate || null,
+        technical_fee_amount: quote.technicalFeeAmount || null,
         discount: quote.discounts || [],
         total_discount: quote.totalDiscount || 0,
         total_amount: quote.totalAmount,
@@ -629,6 +641,8 @@ export const getQuoteById = async (id: string): Promise<Quote | undefined> => {
         subtotal: data.subtotal,
         expenseRate: data.expense_rate || 10,
         expenseAmount: data.expense_amount || 0,
+        technicalFeeRate: data.technical_fee_rate || undefined,
+        technicalFeeAmount: data.technical_fee_amount || undefined,
         discounts: (data.discount as any) || [],
         totalDiscount: data.total_discount || 0,
         totalAmount: data.total_amount,

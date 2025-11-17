@@ -19,6 +19,8 @@ export function CompanySettings() {
     phone: "",
     email: "",
     registrationNumber: "",
+    expenseRate: 10,
+    technicalFeeRate: undefined,
   });
   const [paymentInfo, setPaymentInfo] = useState<BankAccountInfo>({
     domestic: {
@@ -414,6 +416,48 @@ export function CompanySettings() {
                   />
                   <p className="text-sm mt-1" style={{ color: "#D6D3D1" }}>
                     형식: info@example.com
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-2 max-[767px]:grid-cols-1 pt-4 border-t border-[#e1e1e1]">
+                <div>
+                  <Label>재경비 비율 (%)</Label>
+                  <Input
+                    type="number"
+                    value={company.expenseRate || ""}
+                    onChange={(e) => {
+                      const value = e.target.value === "" ? undefined : Number(e.target.value);
+                      setCompany({ ...company, expenseRate: value });
+                    }}
+                    placeholder="10"
+                    className="mt-2"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                  />
+                  <p className="text-sm mt-1" style={{ color: "#D6D3D1" }}>
+                    견적서 작성 시 기본값으로 사용됩니다
+                  </p>
+                </div>
+
+                <div>
+                  <Label>기술료 비율 (%)</Label>
+                  <Input
+                    type="number"
+                    value={company.technicalFeeRate || ""}
+                    onChange={(e) => {
+                      const value = e.target.value === "" ? undefined : Number(e.target.value);
+                      setCompany({ ...company, technicalFeeRate: value });
+                    }}
+                    placeholder="미설정"
+                    className="mt-2"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                  />
+                  <p className="text-sm mt-1" style={{ color: "#D6D3D1" }}>
+                    견적서 작성 시 기본값으로 사용됩니다
                   </p>
                 </div>
               </div>

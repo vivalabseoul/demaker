@@ -29,6 +29,8 @@ export interface CompanyInfo {
   phone: string;
   email: string;
   registrationNumber: string;
+  expenseRate?: number; // 재경비 비율 (%)
+  technicalFeeRate?: number; // 기술료 비율 (%)
 }
 
 export interface Quote {
@@ -42,6 +44,8 @@ export interface Quote {
   subtotal: number;
   expenseRate: number;
   expenseAmount: number;
+  technicalFeeRate?: number; // 기술료 비율 (%)
+  technicalFeeAmount?: number; // 기술료 금액
   discounts?: Discount[];
   totalDiscount?: number;
   totalAmount: number;

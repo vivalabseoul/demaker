@@ -864,6 +864,18 @@ export const generateQuoteHTML = async (quote: Quote): Promise<string> => {
             <span>${formatCurrency(quote.expenseAmount)}원</span>
           </div>
           ${
+            quote.technicalFeeRate &&
+            quote.technicalFeeAmount &&
+            quote.technicalFeeAmount > 0
+              ? `
+          <div class="summary-row">
+            <span>기술료 (${quote.technicalFeeRate}%)</span>
+            <span>${formatCurrency(quote.technicalFeeAmount)}원</span>
+          </div>
+          `
+              : ""
+          }
+          ${
             quote.discounts && quote.discounts.length > 0
               ? quote.discounts
                   .map((discount) => {
@@ -888,7 +900,7 @@ export const generateQuoteHTML = async (quote: Quote): Promise<string> => {
             <span>공급가</span>
             <span>${formatCurrency(
               quote.supplyAmount ||
-                quote.subtotal + quote.expenseAmount - totalDiscount
+                quote.subtotal + quote.expenseAmount + (quote.technicalFeeAmount || 0) - totalDiscount
             )}원</span>
           </div>
           ${

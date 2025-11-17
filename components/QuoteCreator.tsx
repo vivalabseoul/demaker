@@ -147,6 +147,7 @@ export function QuoteCreator({
   const [laborRates, setLaborRates] = useState<LaborRate[]>([]);
   const [items, setItems] = useState<QuoteItem[]>([]);
   const [expenseRate, setExpenseRate] = useState(10);
+  const [technicalFeeRate, setTechnicalFeeRate] = useState<number | undefined>(undefined);
   const [discounts, setDiscounts] = useState<Discount[]>([]);
   const [includeVat, setIncludeVat] = useState(false);
   const [ourCompany, setOurCompany] = useState<CompanyInfo | null>(null);
@@ -220,6 +221,7 @@ export function QuoteCreator({
         setProjectName(quote.projectName || "프로젝트명");
         setItems(quote.items || []);
         setExpenseRate(quote.expenseRate || 10);
+        setTechnicalFeeRate(quote.technicalFeeRate || undefined);
         setDiscounts(quote.discounts || []);
         setIncludeVat(quote.includeVat || false);
         setClientCompany(quote.clientCompany);
@@ -248,6 +250,15 @@ export function QuoteCreator({
       setLaborRates(rates);
       setOurCompany(company);
       setClients(clientList);
+      // 회사 정보에서 재경비와 기술료 기본값 설정
+      if (company) {
+        if (company.expenseRate !== undefined) {
+          setExpenseRate(company.expenseRate);
+        }
+        if (company.technicalFeeRate !== undefined) {
+          setTechnicalFeeRate(company.technicalFeeRate);
+        }
+      }
     } catch (error) {
       console.error("Error loading data:", error);
       toast.error("데이터를 불러오는 중 오류가 발생했습니다.");
@@ -367,8 +378,9 @@ export function QuoteCreator({
 
   const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
   const expenseAmount = Math.round(subtotal * (expenseRate / 100));
+  const technicalFeeAmount = technicalFeeRate ? Math.round(subtotal * (technicalFeeRate / 100)) : 0;
   const totalDiscount = discounts.reduce((sum, d) => sum + (d.amount || 0), 0);
-  const supplyAmount = subtotal + expenseAmount - totalDiscount;
+  const supplyAmount = subtotal + expenseAmount + technicalFeeAmount - totalDiscount;
   const vatAmount = includeVat ? Math.round(supplyAmount * 0.1) : 0;
   const totalAmount = supplyAmount + vatAmount;
   const totalAmountDollar =
@@ -628,6 +640,8 @@ export function QuoteCreator({
           subtotal,
           expenseRate,
           expenseAmount,
+          technicalFeeRate: undefined,
+          technicalFeeAmount: 0,
           totalAmount,
           supplyAmount,
           vatAmount: 0,
@@ -728,6 +742,8 @@ export function QuoteCreator({
           subtotal,
           expenseRate,
           expenseAmount,
+          technicalFeeRate,
+          technicalFeeAmount,
           totalAmount,
           supplyAmount,
           vatAmount,
@@ -763,6 +779,8 @@ export function QuoteCreator({
           subtotal,
           expenseRate,
           expenseAmount,
+          technicalFeeRate,
+          technicalFeeAmount,
           totalAmount,
           supplyAmount,
           vatAmount,
@@ -1129,6 +1147,8 @@ export function QuoteCreator({
         subtotal,
         expenseRate,
         expenseAmount,
+        technicalFeeRate,
+        technicalFeeAmount,
         totalAmount,
         supplyAmount,
         vatAmount,
@@ -1668,16 +1688,34 @@ export function QuoteCreator({
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <Label style={{ width: "8rem" }}>재경비 비율</Label>
-                <div className="flex items-center gap-2">
-                  <Input
-                    type="number"
-                    value={expenseRate}
-                    onChange={(e) => setExpenseRate(Number(e.target.value))}
-                    style={{ width: "8rem" }}
-                  />
-                  <span>%</span>
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <Label style={{ width: "8rem" }}>재경비 비율</Label>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="number"
+                      value={expenseRate}
+                      onChange={(e) => setExpenseRate(Number(e.target.value))}
+                      style={{ width: "8rem" }}
+                    />
+                    <span>%</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <Label style={{ width: "8rem" }}>기술료 비율</Label>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="number"
+                      value={technicalFeeRate || ""}
+                      onChange={(e) => {
+                        const value = e.target.value === "" ? undefined : Number(e.target.value);
+                        setTechnicalFeeRate(value);
+                      }}
+                      placeholder="미설정"
+                      style={{ width: "8rem" }}
+                    />
+                    <span>%</span>
+                  </div>
                 </div>
               </div>
 
@@ -1691,6 +1729,12 @@ export function QuoteCreator({
                     <p>재경비 ({expenseRate}%)</p>
                     <p>{formatCurrency(expenseAmount)}원</p>
                   </div>
+                  {technicalFeeRate && technicalFeeAmount > 0 && (
+                    <div className="flex justify-between">
+                      <p>기술료 ({technicalFeeRate}%)</p>
+                      <p>{formatCurrency(technicalFeeAmount)}원</p>
+                    </div>
+                  )}
 
                   {/* Discounts */}
                   {discounts.length > 0 && (
