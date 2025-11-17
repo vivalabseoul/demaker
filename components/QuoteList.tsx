@@ -1247,10 +1247,12 @@ export function QuoteList({ onEditQuote }: QuoteListProps = {}) {
       {/* 인쇄 미리보기 Dialog */}
       <Dialog open={showPrintPreview} onOpenChange={setShowPrintPreview}>
         <DialogContent
-          className="max-w-[90vw] md:max-w-[210mm] max-h-[90vh] overflow-hidden p-0"
+          className="max-w-[90vw] md:max-w-[210mm] max-h-[90vh] p-0 flex flex-col"
           style={{
             width: "210mm",
             maxWidth: "90vw",
+            height: "90vh",
+            maxHeight: "90vh",
             backgroundColor: "white",
           }}
         >
@@ -1279,12 +1281,16 @@ export function QuoteList({ onEditQuote }: QuoteListProps = {}) {
               </div>
             </div>
           </DialogHeader>
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-hidden p-4" style={{ minHeight: 0 }}>
             {printHTML && (
               <iframe
                 srcDoc={printHTML}
-                className="w-full border-0"
-                style={{ minHeight: "800px" }}
+                className="w-full h-full border-0"
+                style={{ 
+                  width: "100%",
+                  height: "100%",
+                  minHeight: 0,
+                }}
                 title="견적서 인쇄 미리보기"
               />
             )}
