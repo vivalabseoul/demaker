@@ -238,7 +238,7 @@ export function Sidebar({
         </div>
 
         {/* Navigation */}
-        <nav className="px-3 flex-1 py-4">
+        <nav className="px-3 flex-1 py-4 overflow-y-auto">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPage === item.id;
@@ -263,7 +263,7 @@ export function Sidebar({
         </nav>
 
         {/* Login/Logout Button */}
-        <div className="sidebar-footer p-3 border-t border-[#e1e1e1]">
+        <div className="sidebar-footer p-3 border-t border-[#e1e1e1] flex-shrink-0">
           {user ? (
             <button
               onClick={handleLogout}

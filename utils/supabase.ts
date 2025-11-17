@@ -99,46 +99,6 @@ export const logOut = async () => {
   }
 };
 
-// Google 로그인 결과 확인 (App.tsx에서 사용)
-export const getGoogleSignInResult = async () => {
-  try {
-    const { data: { session }, error } = await supabase.auth.getSession();
-
-    if (error) throw error;
-
-    if (!session) {
-      return { success: false, error: 'No session found' };
-    }
-
-    // 사용자 프로필 확인 및 생성
-    const { data: profile } = await supabase
-      .from('users')
-      .select('*')
-      .eq('id', session.user.id)
-      .single();
-
-    if (!profile) {
-      const { error: insertError } = await supabase
-        .from('users')
-        .insert({
-          id: session.user.id,
-          email: session.user.email,
-          name: session.user.user_metadata?.name || session.user.user_metadata?.full_name || '사용자',
-          first_quote_used: false,
-          created_at: new Date().toISOString()
-        });
-
-      if (insertError && insertError.code !== '23505') {
-        console.warn('프로필 생성 실패:', insertError);
-      }
-    }
-
-    return { success: true, user: session.user };
-  } catch (error: any) {
-    console.error('Google sign in result error:', error);
-    return { success: false, error: error.message || '인증 확인 실패' };
-  }
-};
 
 export default supabase;
 
