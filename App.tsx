@@ -14,7 +14,7 @@ import { AuthDialog } from './components/AuthPage';
 import { AuthPageMobile } from './components/AuthPageMobile';
 import { ScrollToTop } from './components/ScrollToTop';
 import { Footer } from './components/Footer';
-import { onAuthChange, getGoogleSignInResult } from './utils/supabase';
+import { onAuthChange } from './utils/supabase';
 import { Toaster } from './components/ui/sonner';
 import { toast } from 'sonner';
 
@@ -37,25 +37,6 @@ export default function App() {
     window.addEventListener('resize', checkMobile);
     
     return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  useEffect(() => {
-    // Check for Google sign-in redirect result
-    const handleRedirectResult = async () => {
-      try {
-        const result = await getGoogleSignInResult();
-        if (result.success) {
-          // 로그인 성공 시 팝업 닫기
-          setShowAuthDialog(false);
-          setShowAuthMobilePage(false);
-          // 토스트는 getGoogleSignInResult 내부나 onAuthChange에서 처리되므로 중복 방지
-        }
-      } catch (error: any) {
-        console.error('Google sign-in error:', error);
-      }
-    };
-    
-    handleRedirectResult();
   }, []);
 
   useEffect(() => {

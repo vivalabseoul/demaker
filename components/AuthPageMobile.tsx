@@ -6,9 +6,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Checkbox } from './ui/checkbox';
 import { Progress } from './ui/progress';
 import { Footer } from './Footer';
-import { signIn, signUp, signInWithGoogle } from '../utils/supabaseAuth';
+import { signIn, signUp } from '../utils/supabaseAuth';
 import { toast } from 'sonner';
-import { Chrome, ArrowLeft, Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 
 interface AuthPageMobileProps {
   onAuthSuccess: () => void;
@@ -21,9 +21,8 @@ export function AuthPageMobile({ onAuthSuccess, onBack }: AuthPageMobileProps) {
   const [loadingMessage, setLoadingMessage] = useState('');
   
   // Sign in state
-  // TODO: 출시 전 테스트 계정 - 출시 시 제거 필요
-  const [signInEmail, setSignInEmail] = useState('test@example.com');
-  const [signInPassword, setSignInPassword] = useState('123456');
+  const [signInEmail, setSignInEmail] = useState('');
+  const [signInPassword, setSignInPassword] = useState('');
   const [rememberEmail, setRememberEmail] = useState(false);
   
   // Sign up state
@@ -33,19 +32,17 @@ export function AuthPageMobile({ onAuthSuccess, onBack }: AuthPageMobileProps) {
   const [signUpConfirmPassword, setSignUpConfirmPassword] = useState('');
 
   // Load saved email on mount
-  // TODO: 출시 시 테스트 계정 기본값 제거하고 localStorage 로직 복원
   useEffect(() => {
-    // 테스트 계정이 이미 기본값으로 설정되어 있으므로 localStorage 체크는 주석 처리
-    // 웹뷰 환경 대응: localStorage 접근 시도
-    // try {
-    //   const savedEmail = localStorage.getItem('savedEmail');
-    //   if (savedEmail) {
-    //     setSignInEmail(savedEmail);
-    //     setRememberEmail(true);
-    //   }
-    // } catch (error) {
-    //   console.warn('localStorage access blocked:', error);
-    // }
+    try {
+      const savedEmail = localStorage.getItem('savedEmail');
+      if (savedEmail) {
+        setSignInEmail(savedEmail);
+        setRememberEmail(true);
+      }
+    } catch (error) {
+      // 웹뷰에서 localStorage가 차단된 경우 무시
+      console.warn('localStorage access blocked:', error);
+    }
   }, []);
 
   // Progress animation when loading - 항상 채워진 상태로 표시
@@ -147,19 +144,6 @@ export function AuthPageMobile({ onAuthSuccess, onBack }: AuthPageMobileProps) {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    setIsLoading(true);
-    setLoadingMessage('구글 로그인 페이지로 이동 중...');
-    try {
-      await signInWithGoogle();
-      // User will be redirected to Google, so this toast may not show
-      toast.success('구글 로그인 페이지로 이동 중...');
-    } catch (error: any) {
-      setIsLoading(false);
-      const errorMessage = error?.error || error?.message || '구글 로그인에 실패했습니다.';
-      toast.error(errorMessage);
-    }
-  };
 
   return (
     <div className="min-h-screen flex flex-col relative" style={{ backgroundColor: '#f9fafb' }}>
@@ -218,16 +202,6 @@ export function AuthPageMobile({ onAuthSuccess, onBack }: AuthPageMobileProps) {
             
             <TabsContent value="signin">
               <form onSubmit={handleSignIn} className="space-y-4">
-                {/* 테스트 계정 안내 - TODO: 출시 시 제거 */}
-                <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-200">
-                  <p className="text-sm" style={{ color: '#10b981' }}>
-                    💡 <strong>테스트 계정이 자동 입력되었습니다.</strong>
-                  </p>
-                  <p className="text-xs mt-1" style={{ color: '#71717B' }}>
-                    바로 로그인 버튼을 클릭하세요.
-                  </p>
-                </div>
-                
                 <div className="space-y-2">
                   <Label htmlFor="signin-email">이메일</Label>
                   <Input
@@ -265,28 +239,6 @@ export function AuthPageMobile({ onAuthSuccess, onBack }: AuthPageMobileProps) {
                 
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? '로그인 중...' : '로그인'}
-                </Button>
-                
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="px-2" style={{ backgroundColor: '#f9fafb', color: '#71717B' }}>
-                      또는
-                    </span>
-                  </div>
-                </div>
-                
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full"
-                  onClick={handleGoogleSignIn}
-                  disabled={isLoading}
-                >
-                  <Chrome className="mr-2 h-4 w-4" />
-                  구글로 로그인
                 </Button>
               </form>
             </TabsContent>
@@ -347,35 +299,13 @@ export function AuthPageMobile({ onAuthSuccess, onBack }: AuthPageMobileProps) {
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? '가입 중...' : '회원가입'}
                 </Button>
-                
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="px-2" style={{ backgroundColor: '#f9fafb', color: '#71717B' }}>
-                      또는
-                    </span>
-                  </div>
-                </div>
-                
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full"
-                  onClick={handleGoogleSignIn}
-                  disabled={isLoading}
-                >
-                  <Chrome className="mr-2 h-4 w-4" />
-                  구글로 계속하기
-                </Button>
               </form>
             </TabsContent>
           </Tabs>
           
           <div className="mt-6 text-center">
             <p className="text-sm" style={{ color: '#71717B' }}>
-              Firebase 기반 안전한 인증
+              안전한 이메일 인증
             </p>
           </div>
         </div>
