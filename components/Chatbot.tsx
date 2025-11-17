@@ -33,7 +33,9 @@ export function Chatbot() {
   // 메시지 추가 시 스크롤을 맨 아래로
   useEffect(() => {
     if (scrollAreaRef.current) {
-      const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      const scrollContainer = scrollAreaRef.current.querySelector(
+        "[data-radix-scroll-area-viewport]"
+      );
       if (scrollContainer) {
         scrollContainer.scrollTop = scrollContainer.scrollHeight;
       }
@@ -64,7 +66,7 @@ export function Chatbot() {
     try {
       // 간단한 응답 로직 (나중에 AI API로 교체 가능)
       const response = await generateResponse(userMessage.content);
-      
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
@@ -109,7 +111,11 @@ export function Chatbot() {
       return "견적서는 '인쇄' 버튼을 클릭하여 PDF로 다운로드하거나 인쇄할 수 있습니다. 최종견적금액도 포함되어 출력됩니다.";
     }
 
-    if (lowerInput.includes("도움") || lowerInput.includes("도와") || lowerInput.includes("어떻게")) {
+    if (
+      lowerInput.includes("도움") ||
+      lowerInput.includes("도와") ||
+      lowerInput.includes("어떻게")
+    ) {
       return "개발견적메이커는 소프트웨어 개발 프로젝트 견적서를 쉽게 작성할 수 있는 도구입니다. 주요 기능:\n\n1. 견적서 작성 및 관리\n2. 거래처 정보 관리\n3. 구독 및 결제 관리\n4. PDF 다운로드\n\n자세한 도움이 필요하시면 특정 기능에 대해 질문해주세요!";
     }
 
@@ -155,7 +161,10 @@ export function Chatbot() {
           <CardHeader className="pb-3 border-b border-[#e1e1e1]">
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2 text-lg">
-                <Bot className="w-5 h-5" style={{ color: "var(--main-color)" }} />
+                <Bot
+                  className="w-5 h-5"
+                  style={{ color: "var(--main-color)" }}
+                />
                 AI 챗봇 도우미
               </CardTitle>
               <Button
@@ -169,9 +178,12 @@ export function Chatbot() {
             </div>
           </CardHeader>
 
-          <CardContent className="flex-1 flex flex-col p-0">
+          <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
             {/* 메시지 영역 */}
-            <ScrollArea className="flex-1 px-4 py-4" ref={scrollAreaRef}>
+            <ScrollArea
+              className="flex-1 px-4 py-4 h-full overflow-hidden"
+              ref={scrollAreaRef}
+            >
               <div className="space-y-4">
                 {messages.map((message) => (
                   <div
@@ -185,7 +197,10 @@ export function Chatbot() {
                         className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
                         style={{ backgroundColor: "var(--main-color)" }}
                       >
-                        <Bot className="w-5 h-5" style={{ color: "var(--white)" }} />
+                        <Bot
+                          className="w-5 h-5"
+                          style={{ color: "var(--white)" }}
+                        />
                       </div>
                     )}
                     <div
@@ -228,7 +243,10 @@ export function Chatbot() {
                         className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
                         style={{ backgroundColor: "#e1e1e1" }}
                       >
-                        <User className="w-5 h-5" style={{ color: "var(--gray)" }} />
+                        <User
+                          className="w-5 h-5"
+                          style={{ color: "var(--gray)" }}
+                        />
                       </div>
                     )}
                   </div>
@@ -239,7 +257,10 @@ export function Chatbot() {
                       className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
                       style={{ backgroundColor: "var(--main-color)" }}
                     >
-                      <Bot className="w-5 h-5" style={{ color: "var(--white)" }} />
+                      <Bot
+                        className="w-5 h-5"
+                        style={{ color: "var(--white)" }}
+                      />
                     </div>
                     <div
                       className="rounded-lg rounded-tl-none px-4 py-2"
@@ -297,7 +318,10 @@ export function Chatbot() {
                   <Send className="w-4 h-4" />
                 </Button>
               </div>
-              <p className="text-xs mt-2 text-center" style={{ color: "var(--gray)" }}>
+              <p
+                className="text-xs mt-2 text-center"
+                style={{ color: "var(--gray)" }}
+              >
                 Enter 키로 전송할 수 있습니다
               </p>
             </div>
@@ -307,4 +331,3 @@ export function Chatbot() {
     </>
   );
 }
-
