@@ -335,6 +335,17 @@ export function QuoteList({ onEditQuote }: QuoteListProps = {}) {
                   </span>
                 </div>
 
+                {quote.projectName && (
+                  <div className="px-3 py-2 rounded-lg bg-gray-50 border border-gray-200">
+                    <p className="text-xs uppercase tracking-wide" style={{ color: "#9CA3AF" }}>
+                      프로젝트명
+                    </p>
+                    <p className="text-sm font-semibold" style={{ color: "#111827" }}>
+                      {quote.projectName}
+                    </p>
+                  </div>
+                )}
+
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <p className="text-sm" style={{ color: '#71717B' }}>작성일자</p>
@@ -448,6 +459,7 @@ export function QuoteList({ onEditQuote }: QuoteListProps = {}) {
               <thead>
                 <tr className="border-b border-[#e1e1e1]">
                   <th className="pb-3 text-center">견적번호</th>
+                  <th className="pb-3 text-center">프로젝트명</th>
                   <th className="pb-3 text-center">거래처</th>
                   <th className="pb-3 text-center">작성일자</th>
                   <th className="pb-3 text-center">유형</th>
@@ -459,6 +471,9 @@ export function QuoteList({ onEditQuote }: QuoteListProps = {}) {
                 {paginatedQuotes.map((quote) => (
                   <tr key={quote.id} className="border-b border-[#e1e1e1]">
                     <td className="py-4 text-center text-sm" style={{ color: '#71717B' }}>{quote.quoteNumber}</td>
+                    <td className="py-4 text-center text-sm" style={{ color: '#374151' }}>
+                      {quote.projectName || "-"}
+                    </td>
                     <td className="py-4 text-center">
                       <span className="text-lg font-bold">{quote.clientCompany.name}</span>
                     </td>
