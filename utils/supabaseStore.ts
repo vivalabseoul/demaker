@@ -304,7 +304,7 @@ export const getLaborRates = async (): Promise<LaborRate[]> => {
 
     if (error) {
       console.error('❌ Error fetching labor rates:', error);
-      return getDefaultLaborRates();
+      return [];
     }
 
     if (data && data.length > 0) {
@@ -318,10 +318,10 @@ export const getLaborRates = async (): Promise<LaborRate[]> => {
       }));
     }
 
-    return getDefaultLaborRates();
+    return [];
   } catch (error: any) {
     console.error('❌ Error in getLaborRates:', error);
-    return getDefaultLaborRates();
+    return [];
   }
 };
 
