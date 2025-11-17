@@ -504,6 +504,10 @@ export const generateQuoteHTML = async (quote: Quote): Promise<string> => {
           
           .terms .section {
             margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            background-color: #f9fafb;
             page-break-inside: avoid;
             break-inside: avoid-page;
           }
