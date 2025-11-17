@@ -1688,8 +1688,8 @@ export function QuoteCreator({
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex items-center gap-4 flex-1">
                   <Label style={{ width: "8rem" }}>재경비 비율</Label>
                   <div className="flex items-center gap-2">
                     <Input
@@ -1701,7 +1701,7 @@ export function QuoteCreator({
                     <span>%</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 flex-1">
                   <Label style={{ width: "8rem" }}>기술료 비율</Label>
                   <div className="flex items-center gap-2">
                     <Input
