@@ -60,7 +60,7 @@ export default function App() {
 
   useEffect(() => {
     // Listen to authentication state changes
-    let timeoutId: NodeJS.Timeout | null = null;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
     let isMounted = true;
     
     try {
