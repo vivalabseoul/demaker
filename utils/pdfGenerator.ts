@@ -184,12 +184,24 @@ export const generateQuoteHTML = async (quote: Quote): Promise<string> => {
             background: white;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
-            min-width: 1200px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
           }
           
           .container {
-            min-width: 1200px;
+            width: 100%;
             max-width: 100%;
+            box-sizing: border-box;
+          }
+          
+          @media screen {
+            body {
+              min-width: auto;
+            }
+            .container {
+              min-width: auto;
+            }
           }
           
           .header { 
