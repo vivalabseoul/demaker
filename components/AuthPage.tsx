@@ -172,6 +172,16 @@ export function AuthDialog({ open, onOpenChange, onAuthSuccess }: AuthDialogProp
           <DialogDescription className="text-center">
             로그인하여 견적서를 저장하고 관리하세요
           </DialogDescription>
+          <p
+            className="text-sm text-center mt-2 px-4 py-2 rounded-lg"
+            style={{
+              backgroundColor: "#fff8e1",
+              border: "1px solid #ffe0b2",
+              color: "#92400e",
+            }}
+          >
+            회원가입 후 이메일 인증을 완료해야 로그인할 수 있습니다.
+          </p>
         </DialogHeader>
         
         <Tabs defaultValue="signin" className="w-full">

@@ -192,6 +192,16 @@ export function AuthPageMobile({ onAuthSuccess, onBack }: AuthPageMobileProps) {
             <p style={{ color: '#71717B' }}>
               로그인하여 견적서를 저장하고 관리하세요
             </p>
+            <p
+              className="text-sm mt-3 px-4 py-2 rounded-lg"
+              style={{
+                backgroundColor: "#fff8e1",
+                border: "1px solid #ffe0b2",
+                color: "#92400e",
+              }}
+            >
+              회원가입 후 이메일 인증을 완료하면 로그인할 수 있습니다.
+            </p>
           </div>
 
           <Tabs defaultValue="signin" className="w-full">

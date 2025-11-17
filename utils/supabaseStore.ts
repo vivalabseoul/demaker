@@ -253,14 +253,14 @@ export const getOurCompany = async (): Promise<CompanyInfo | null> => {
 
 // 기본 회사정보
 const getDefaultCompanyInfo = (): CompanyInfo => ({
-  name: '테크솔루션 주식회사',
-  representative: '홍길동',
-  address: '서울특별시 강남구 테헤란로 123',
-  phone: '02-1234-5678',
-  email: 'contact@techsolution.co.kr',
-  registrationNumber: '123-45-67890',
+  name: '',
+  representative: '',
+  address: '',
+  phone: '',
+  email: '',
+  registrationNumber: '',
   expenseRate: 10,
-  technicalFeeRate: undefined
+  technicalFeeRate: undefined,
 });
 
 // ======================
