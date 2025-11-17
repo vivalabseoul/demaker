@@ -1379,9 +1379,14 @@ export const generateCustomerNoticeHTML = async (
             margin-top: 2rem; 
             padding: 1.5rem; 
             border: 2px solid #000;
-            border-radius: 8px;
+            border-radius: 12px;
             background: white;
-            page-break-inside: avoid;
+          }
+          
+          .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.25rem;
           }
           
           .terms h4 { 
@@ -1411,7 +1416,17 @@ export const generateCustomerNoticeHTML = async (
           }
           
           .terms .section {
-            margin-bottom: 1.5rem;
+            margin: 0;
+            padding: 1.25rem;
+            border: 1px dashed #cbd5f5;
+            border-radius: 12px;
+            background: #f8fafc;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            break-inside: avoid;
+            page-break-inside: avoid;
           }
           
           @media print {
@@ -1448,7 +1463,11 @@ export const generateCustomerNoticeHTML = async (
             .terms {
               margin-top: 1rem !important;
               padding: 1rem !important;
-              page-break-inside: avoid !important;
+            }
+            
+            .sections-grid {
+              grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+              gap: 0.75rem !important;
             }
             
             .terms h4 {
@@ -1459,18 +1478,20 @@ export const generateCustomerNoticeHTML = async (
             
             .terms h5 {
               font-size: 0.875rem !important;
-              margin-top: 0.75rem !important;
-              margin-bottom: 0.5rem !important;
+              margin-top: 0 !important;
+              margin-bottom: 0.4rem !important;
             }
             
             .terms p {
-              font-size: 0.75rem !important;
-              margin-bottom: 0.5rem !important;
-              line-height: 1.6 !important;
+              font-size: 0.7rem !important;
+              margin-bottom: 0 !important;
+              line-height: 1.5 !important;
             }
             
             .terms .section {
-              margin-bottom: 1rem !important;
+              padding: 0.75rem !important;
+              min-height: auto !important;
+              gap: 0.4rem !important;
             }
           }
         </style>
@@ -1512,6 +1533,7 @@ export const generateCustomerNoticeHTML = async (
           </div>
 
           <div class="terms">
+            <div class="sections-grid">
             ${
               customerNotice.refundPolicy && customerNotice.refundPolicy.trim()
                 ? `
@@ -1579,6 +1601,7 @@ export const generateCustomerNoticeHTML = async (
             `
                 : ""
             }
+            </div>
           </div>
         </div>
       </body>
