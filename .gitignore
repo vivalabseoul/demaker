@@ -42,6 +42,7 @@ lerna-debug.log*
 .vite/
 *.d.ts
 !types/*.d.ts
+!vite-env.d.ts
 
 # TypeScript
 *.tsbuildinfo
