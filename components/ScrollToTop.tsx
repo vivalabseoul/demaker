@@ -35,7 +35,7 @@ export function ScrollToTop() {
           onClick={scrollToTop}
           className="scroll-to-top-button no-full-width"
           style={{
-            backgroundColor: 'var(--main-color)',
+            backgroundColor: '#9ca3af',
             color: 'var(--white)',
           }}
           aria-label="맨 위로 이동"
@@ -47,8 +47,8 @@ export function ScrollToTop() {
       <style>{`
         .scroll-to-top-button {
           position: fixed;
-          bottom: 2rem;
-          right: 2rem;
+          bottom: 6.5rem; /* 챗봇 버튼 위에 배치 (챗봇: bottom-6 = 1.5rem, 높이 3.5rem, gap 0.5rem) */
+          right: 1.5rem;
           width: 3.5rem;
           height: 3.5rem;
           border-radius: 50%;
@@ -79,7 +79,7 @@ export function ScrollToTop() {
           .scroll-to-top-button {
             width: 4rem;
             height: 4rem;
-            bottom: 1.5rem;
+            bottom: 6.5rem; /* 모바일에서도 챗봇 위에 배치 */
             right: 1.5rem;
           }
 
