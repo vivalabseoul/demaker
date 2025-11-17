@@ -1258,21 +1258,23 @@ export function QuoteCreator({
 
               <div>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-2">
-                  <h4>
+                  <h4 className="flex-shrink-0">
                     <strong>공급받는 거래처</strong>
                   </h4>
-                  <Select onValueChange={handleLoadClient}>
-                    <SelectTrigger className="w-full sm:w-48">
-                      <SelectValue placeholder="거래처 불러오기" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {clients.map((client) => (
-                        <SelectItem key={client.id} value={client.id}>
-                          {client.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <div className="w-full sm:w-auto sm:flex-1 sm:max-w-md">
+                    <Select onValueChange={handleLoadClient}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="거래처 불러오기" />
+                      </SelectTrigger>
+                      <SelectContent className="max-w-[var(--radix-select-trigger-width)]">
+                        {clients.map((client) => (
+                          <SelectItem key={client.id} value={client.id} className="truncate">
+                            {client.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <div className="space-y-3">

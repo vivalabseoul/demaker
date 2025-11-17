@@ -238,7 +238,7 @@ export function Sidebar({
         </div>
 
         {/* Navigation */}
-        <nav className="px-3 flex-1 py-4 overflow-y-auto">
+        <nav className="px-3 flex-1 py-4 overflow-y-auto sidebar-nav-scroll">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPage === item.id;
@@ -292,6 +292,31 @@ export function Sidebar({
       </aside>
 
       <style>{`
+        /* 네비게이션 스크롤바 스타일 */
+        .sidebar-nav-scroll::-webkit-scrollbar {
+          width: 8px;
+        }
+        
+        .sidebar-nav-scroll::-webkit-scrollbar-track {
+          background: var(--main-color);
+          border-radius: 4px;
+        }
+        
+        .sidebar-nav-scroll::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.3);
+          border-radius: 4px;
+        }
+        
+        .sidebar-nav-scroll::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Firefox */
+        .sidebar-nav-scroll {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255, 255, 255, 0.3) var(--main-color);
+        }
+        
         /* 모바일 초소형: 450px 이하 - 화이트 배경, 90% 화면 */
         @media (max-width: 450px) {
           .sidebar-container {
