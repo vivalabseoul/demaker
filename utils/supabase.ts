@@ -17,12 +17,39 @@ if (!publicAnonKey || !supabaseUrl) {
   });
 }
 
+// 안전한 로컬 스토리지 어댑터
+const safeLocalStorage = {
+  getItem: (key: string): string | null => {
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      console.warn('LocalStorage access denied:', e);
+      return null;
+    }
+  },
+  setItem: (key: string, value: string): void => {
+    try {
+      localStorage.setItem(key, value);
+    } catch (e) {
+      console.warn('LocalStorage access denied:', e);
+    }
+  },
+  removeItem: (key: string): void => {
+    try {
+      localStorage.removeItem(key);
+    } catch (e) {
+      console.warn('LocalStorage access denied:', e);
+    }
+  },
+};
+
 // Supabase 클라이언트 생성
 export const supabase = createClient(supabaseUrl, publicAnonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
-    detectSessionInUrl: true
+    detectSessionInUrl: true,
+    storage: safeLocalStorage,
   }
 });
 

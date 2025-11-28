@@ -248,7 +248,6 @@ export function Chatbot() {
     },
   ];
 
-
   // 메시지 추가 시 스크롤을 맨 아래로
   useEffect(() => {
     if (!scrollAreaRef.current) return;
@@ -309,9 +308,7 @@ export function Chatbot() {
   const generateResponse = async (userInput: string): Promise<string> => {
     const lowerInput = userInput.toLowerCase();
     const matched = faqResponses.find((faq) =>
-      faq.keywords.some((keyword) =>
-        lowerInput.includes(keyword.toLowerCase())
-      )
+      faq.keywords.some((keyword) => lowerInput.includes(keyword.toLowerCase()))
     );
 
     if (matched) {
