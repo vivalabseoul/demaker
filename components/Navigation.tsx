@@ -46,7 +46,7 @@ export function Navigation({ onLoginClick, onGetStarted, isLoggedIn = false }: N
             <span className="text-[#00ff88]">Maker</span>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Right aligned with menu items */}
           <div className="hidden md:flex items-center gap-8">
             <button 
               onClick={() => scrollToSection('features')} 
@@ -66,10 +66,8 @@ export function Navigation({ onLoginClick, onGetStarted, isLoggedIn = false }: N
             >
               예시
             </button>
-          </div>
-
-          {/* Desktop Actions */}
-          <div className="hidden md:flex items-center gap-4">
+            
+            {/* Action Buttons */}
             {isLoggedIn ? (
               <Button
                 onClick={onGetStarted}

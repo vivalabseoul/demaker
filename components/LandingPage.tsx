@@ -303,6 +303,7 @@ export function LandingPage({ onLoginClick, onGetStarted, isLoggedIn = false }: 
 
       {/* Features Section */}
       <section
+        id="features"
         className="w-full px-6 py-20"
         style={{ backgroundColor: "white" }}
       >
@@ -345,6 +346,7 @@ export function LandingPage({ onLoginClick, onGetStarted, isLoggedIn = false }: 
 
       {/* Sample Quote & Analytics Section */}
       <section
+        id="sample"
         className="w-full px-6 py-20"
         style={{ backgroundColor: "#000000" }}
       >
@@ -611,6 +613,7 @@ export function LandingPage({ onLoginClick, onGetStarted, isLoggedIn = false }: 
 
       {/* Pricing Section */}
       <section
+        id="pricing"
         className="w-full px-6 py-20"
         style={{ backgroundColor: "white" }}
       >
