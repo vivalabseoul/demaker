@@ -1898,6 +1898,29 @@ export function QuoteCreator({
             <Download className="w-4 h-4 mr-2" />
             인쇄
           </Button>
+          {/* AI buttons hidden */}
+          {false && <Button
+            onClick={handleGenerateAIQuote}
+            variant="outline"
+            style={{
+              backgroundColor: "var(--sub-color)",
+              color: "var(--white)",
+            }}
+          >
+            <Sparkles className="w-4 h-4 mr-2" />
+            AI 견적 도우미
+          </Button>}
+          {false && <Button
+            onClick={handleRequestAIReview}
+            variant="outline"
+            style={{
+              backgroundColor: "var(--main-color)",
+              color: "var(--white)",
+            }}
+          >
+            <FileCheck className="w-4 h-4 mr-2" />
+            AI 견적서 검토
+          </Button>}
           <Button
             onClick={handleGenerateSampleData}
             variant="outline"
