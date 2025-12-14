@@ -1824,7 +1824,7 @@ export function QuoteCreator({
                             setCurrencyType(value as CurrencyType)
                           }
                         >
-                          <SelectTrigger id="currencyType" className="w-full">
+                          <SelectTrigger id="currencyType" className="w-1/2">
                             <SelectValue placeholder="통화 선택" />
                           </SelectTrigger>
                           <SelectContent>
