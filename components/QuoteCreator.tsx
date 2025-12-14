@@ -148,6 +148,7 @@ export function QuoteCreator({
   const [items, setItems] = useState<QuoteItem[]>([]);
   const [expenseRate, setExpenseRate] = useState(10);
   const [technicalFeeRate, setTechnicalFeeRate] = useState<number | undefined>(undefined);
+  const [fpCalculationRate, setFpCalculationRate] = useState<number | undefined>(undefined); // FP산정료
   const [discounts, setDiscounts] = useState<Discount[]>([]);
   const [includeVat, setIncludeVat] = useState(false);
   const [ourCompany, setOurCompany] = useState<CompanyInfo | null>(null);
@@ -379,8 +380,9 @@ export function QuoteCreator({
   const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
   const expenseAmount = Math.round(subtotal * (expenseRate / 100));
   const technicalFeeAmount = technicalFeeRate ? Math.round(subtotal * (technicalFeeRate / 100)) : 0;
+  const fpCalculationAmount = fpCalculationRate ? Math.round(subtotal * (fpCalculationRate / 100)) : 0;
   const totalDiscount = discounts.reduce((sum, d) => sum + (d.amount || 0), 0);
-  const supplyAmount = subtotal + expenseAmount + technicalFeeAmount - totalDiscount;
+  const supplyAmount = subtotal + expenseAmount + technicalFeeAmount + fpCalculationAmount - totalDiscount;
   const vatAmount = includeVat ? Math.round(supplyAmount * 0.1) : 0;
   const totalAmount = supplyAmount + vatAmount;
   const totalAmountDollar =
@@ -1689,34 +1691,44 @@ export function QuoteCreator({
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex items-center gap-4 flex-1">
-                  <Label style={{ width: "8rem" }}>재경비 비율</Label>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      type="number"
-                      value={expenseRate}
-                      onChange={(e) => setExpenseRate(Number(e.target.value))}
-                      style={{ width: "8rem" }}
-                    />
-                    <span>%</span>
-                  </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="flex items-center gap-2">
+                  <Label className="whitespace-nowrap">재경비</Label>
+                  <Input
+                    type="number"
+                    value={expenseRate}
+                    onChange={(e) => setExpenseRate(Number(e.target.value))}
+                    className="w-20"
+                  />
+                  <span>%</span>
                 </div>
-                <div className="flex items-center gap-4 flex-1">
-                  <Label style={{ width: "8rem" }}>기술료 비율</Label>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      type="number"
-                      value={technicalFeeRate || ""}
-                      onChange={(e) => {
-                        const value = e.target.value === "" ? undefined : Number(e.target.value);
-                        setTechnicalFeeRate(value);
-                      }}
-                      placeholder="미설정"
-                      style={{ width: "8rem" }}
-                    />
-                    <span>%</span>
-                  </div>
+                <div className="flex items-center gap-2">
+                  <Label className="whitespace-nowrap">기술료</Label>
+                  <Input
+                    type="number"
+                    value={technicalFeeRate || ""}
+                    onChange={(e) => {
+                      const value = e.target.value === "" ? undefined : Number(e.target.value);
+                      setTechnicalFeeRate(value);
+                    }}
+                    placeholder="미설정"
+                    className="w-20"
+                  />
+                  <span>%</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Label className="whitespace-nowrap">FP산정료</Label>
+                  <Input
+                    type="number"
+                    value={fpCalculationRate || ""}
+                    onChange={(e) => {
+                      const value = e.target.value === "" ? undefined : Number(e.target.value);
+                      setFpCalculationRate(value);
+                    }}
+                    placeholder="미설정"
+                    className="w-20"
+                  />
+                  <span>%</span>
                 </div>
               </div>
 
@@ -1734,6 +1746,12 @@ export function QuoteCreator({
                     <div className="flex justify-between">
                       <p>기술료 ({technicalFeeRate}%)</p>
                       <p>{formatCurrency(technicalFeeAmount)}원</p>
+                    </div>
+                  )}
+                  {fpCalculationRate && fpCalculationAmount > 0 && (
+                    <div className="flex justify-between">
+                      <p>FP산정료 ({fpCalculationRate}%)</p>
+                      <p>{formatCurrency(fpCalculationAmount)}원</p>
                     </div>
                   )}
 
