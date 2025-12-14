@@ -1922,17 +1922,6 @@ export function QuoteCreator({
             AI 견적서 검토
           </Button>
           */}
-          <Button
-            onClick={handleGenerateSampleData}
-            variant="outline"
-            style={{
-              backgroundColor: "var(--sub-color)",
-              color: "var(--white)",
-            }}
-          >
-            <Sparkles className="w-4 h-4 mr-2" />
-            샘플 데이터 생성
-          </Button>
         </div>
       </div>
 
