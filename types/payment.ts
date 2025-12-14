@@ -53,8 +53,7 @@ export interface Product {
   quota: number; // 사용 가능 횟수
   description?: string;
   originalPrice?: number; // 원래 가격 (1000원 × 횟수)
-  paidQuota?: number; // 유료 횟수 (예: 5)
-  freeQuota?: number; // 무료 횟수 (예: 3)
+  discountRate?: number; // 할인율 (%)
 }
 
 // 구독 정보

@@ -8,33 +8,30 @@ export const PRODUCTS: Product[] = [
     name: '스타터',
     price: 5000,
     period: 'monthly',
-    quota: 8,
-    description: '월 8회 사용 가능',
-    originalPrice: 8000, // 1000원 × 8
-    paidQuota: 5,
-    freeQuota: 3,
+    quota: 6,
+    description: '월 6회 사용 가능',
+    originalPrice: 6000, // 1000원 × 6
+    discountRate: 17, // 할인율 17%
   },
   {
     id: 'basic',
     name: '베이직',
-    price: 15000,
+    price: 18000,
     period: 'monthly',
-    quota: 25,
-    description: '월 25회 사용 가능',
-    originalPrice: 25000, // 1000원 × 25
-    paidQuota: 20,
-    freeQuota: 5,
+    quota: 20,
+    description: '월 20회 사용 가능',
+    originalPrice: 20000, // 1000원 × 20
+    discountRate: 10, // 할인율 10%
   },
   {
     id: 'premium',
     name: '프리미엄',
-    price: 150000,
+    price: 270000,
     period: 'yearly',
     quota: 300,
     description: '연간 300회 사용 가능',
     originalPrice: 300000, // 1000원 × 300
-    paidQuota: 250,
-    freeQuota: 50,
+    discountRate: 10, // 할인율 10%
   },
 ];
 

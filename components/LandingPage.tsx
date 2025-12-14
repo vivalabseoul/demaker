@@ -631,7 +631,7 @@ export function LandingPage({ onLoginClick, onGetStarted, isLoggedIn = false }: 
             구독 요금제
           </h2>
           <p className="text-center mb-12" style={{ color: "#71717B" }}>
-            프로젝트 규모에 맞는 요금제를 선택하세요 * 1개월 이월 가능
+            프로젝트 규모에 맞는 요금제를 선택하세요 (차감형, 이월 없음)
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {PRODUCTS.map((product) => (
@@ -664,6 +664,11 @@ export function LandingPage({ onLoginClick, onGetStarted, isLoggedIn = false }: 
                       베스트
                     </div>
                   )}
+                  {product.discountRate && (
+                    <div className="absolute top-2 left-2 bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold z-10">
+                      {product.discountRate}% 할인
+                    </div>
+                  )}
                   <CardTitle className="text-2xl font-bold">
                     {product.name}
                   </CardTitle>
@@ -672,6 +677,11 @@ export function LandingPage({ onLoginClick, onGetStarted, isLoggedIn = false }: 
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
+                  {product.originalPrice && (
+                    <div className="text-lg line-through mb-1" style={{ color: "#71717B" }}>
+                      {formatProductPrice(product.originalPrice)}
+                    </div>
+                  )}
                   <div
                     className="font-bold mb-2"
                     style={{ color: "var(--main-color)", fontSize: "3.75rem" }}
@@ -689,6 +699,15 @@ export function LandingPage({ onLoginClick, onGetStarted, isLoggedIn = false }: 
                       />
                       <span style={{ color: "#71717B" }}>
                         견적서 발급 {product.quota}회
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Check
+                        className="w-5 h-5"
+                        style={{ color: "var(--main-color)" }}
+                      />
+                      <span style={{ color: "#71717B" }}>
+                        차감형 (이월 없음)
                       </span>
                     </div>
                   </div>
