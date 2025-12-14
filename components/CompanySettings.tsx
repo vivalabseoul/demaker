@@ -21,6 +21,7 @@ export function CompanySettings() {
     registrationNumber: "",
     expenseRate: 10,
     technicalFeeRate: undefined,
+    fpCalculationRate: undefined,
   });
   const [paymentInfo, setPaymentInfo] = useState<BankAccountInfo>({
     domestic: {
@@ -420,7 +421,7 @@ export function CompanySettings() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 md:grid-cols-2 max-[767px]:grid-cols-1 pt-4 border-t border-[#e1e1e1]">
+              <div className="grid grid-cols-3 gap-4 md:grid-cols-3 max-[767px]:grid-cols-1 pt-4 border-t border-[#e1e1e1]">
                 <div>
                   <Label>재경비 비율 (%)</Label>
                   <Input
@@ -449,6 +450,26 @@ export function CompanySettings() {
                     onChange={(e) => {
                       const value = e.target.value === "" ? undefined : Number(e.target.value);
                       setCompany({ ...company, technicalFeeRate: value });
+                    }}
+                    placeholder="미설정"
+                    className="mt-2"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                  />
+                  <p className="text-sm mt-1" style={{ color: "#D6D3D1" }}>
+                    견적서 작성 시 기본값으로 사용됩니다
+                  </p>
+                </div>
+
+                <div>
+                  <Label>FP산정료 비율 (%)</Label>
+                  <Input
+                    type="number"
+                    value={company.fpCalculationRate || ""}
+                    onChange={(e) => {
+                      const value = e.target.value === "" ? undefined : Number(e.target.value);
+                      setCompany({ ...company, fpCalculationRate: value });
                     }}
                     placeholder="미설정"
                     className="mt-2"

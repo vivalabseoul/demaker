@@ -31,6 +31,7 @@ export interface CompanyInfo {
   registrationNumber: string;
   expenseRate?: number; // 재경비 비율 (%)
   technicalFeeRate?: number; // 기술료 비율 (%)
+  fpCalculationRate?: number; // FP산정료 비율 (%)
 }
 
 export interface Quote {
