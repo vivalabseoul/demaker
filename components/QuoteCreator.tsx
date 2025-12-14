@@ -1556,7 +1556,7 @@ export function QuoteCreator({
         </Card>
 
         {/* Summary */}
-        <Card style={{ backgroundColor: "var(--white)" }}>
+        <Card style={{ backgroundColor: "var(--white)", border: "5px solid #e1e1e1" }}>
           <CardHeader>
             <h3>견적 요약</h3>
           </CardHeader>
@@ -1912,8 +1912,8 @@ export function QuoteCreator({
         </div>
       </div>
 
-      {/* AI Comparison Dialog */}
-      <Dialog open={showAIComparison} onOpenChange={setShowAIComparison}>
+      {/* AI Comparison Dialog - HIDDEN */}
+      {false && <Dialog open={showAIComparison} onOpenChange={setShowAIComparison}>
         <DialogContent style={{ maxWidth: "64rem" }}>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
@@ -2096,7 +2096,7 @@ export function QuoteCreator({
             </div>
           )}
         </DialogContent>
-      </Dialog>
+      </Dialog>}
 
       {/* AI Review Dialog */}
       <Dialog open={showAIReview} onOpenChange={setShowAIReview}>
