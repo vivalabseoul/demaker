@@ -463,7 +463,7 @@ export function CompanySettings() {
                 </div>
 
                 <div>
-                  <Label>FP산정료 비율 (%)</Label>
+                  <Label>FP산정료</Label>
                   <Input
                     type="number"
                     value={company.fpCalculationRate || ""}
