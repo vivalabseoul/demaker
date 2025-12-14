@@ -8,10 +8,10 @@ export const PRODUCTS: Product[] = [
     name: '스타터',
     price: 5000,
     period: 'monthly',
-    quota: 6,
-    description: '월 6회 사용 가능',
-    originalPrice: 6000, // 1000원 × 6
-    discountRate: 17, // 할인율 17%
+    quota: 5,
+    description: '월 5회 사용 가능',
+    originalPrice: 5000, // 1000원 × 5
+    // 할인 없음
   },
   {
     id: 'basic',
@@ -26,12 +26,12 @@ export const PRODUCTS: Product[] = [
   {
     id: 'premium',
     name: '프리미엄',
-    price: 270000,
+    price: 255000,
     period: 'yearly',
     quota: 300,
     description: '연간 300회 사용 가능',
     originalPrice: 300000, // 1000원 × 300
-    discountRate: 10, // 할인율 10%
+    discountRate: 15, // 할인율 15%
   },
 ];
 

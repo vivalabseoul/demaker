@@ -658,14 +658,14 @@ export function LandingPage({ onLoginClick, onGetStarted, isLoggedIn = false }: 
                 }}
                 onClick={() => setSelectedProductId(product.id)}
               >
-                <CardHeader className="relative">
+                <CardHeader className="relative pt-12">
                   {product.id === "basic" && (
-                    <div className="absolute top-2 right-2 bg-[var(--main-color)] text-white px-6 py-2 rounded-full text-base font-bold z-10">
+                    <div className="absolute -top-3 right-2 bg-[var(--main-color)] text-white px-6 py-2 rounded-full text-base font-bold z-10">
                       베스트
                     </div>
                   )}
                   {product.discountRate && (
-                    <div className="absolute top-2 left-2 bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold z-10">
+                    <div className="absolute -top-3 left-2 bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold z-10">
                       {product.discountRate}% 할인
                     </div>
                   )}
