@@ -349,12 +349,21 @@ export function PaymentPage() {
                     </CardHeader>
                     <CardContent>
                       {product.originalPrice && (
-                        <div className="mb-2">
+                        <div className="mb-2 flex items-center gap-2">
                           <span
                             className="text-sm line-through"
                             style={{ color: "#71717B" }}
                           >
                             {formatProductPrice(product.originalPrice)}
+                          </span>
+                          <span
+                            className="text-xs font-bold px-2 py-1 rounded"
+                            style={{ 
+                              backgroundColor: "#ef4444",
+                              color: "white"
+                            }}
+                          >
+                            {Math.round((1 - product.price / product.originalPrice) * 100)}% 할인
                           </span>
                         </div>
                       )}
