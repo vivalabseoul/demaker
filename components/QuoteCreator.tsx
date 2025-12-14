@@ -905,7 +905,7 @@ export function QuoteCreator({
     }
 
     try {
-      // 베타 무료 사용분 / 구독 사용 횟수 확인
+      // 베타 서비스 / 구독 사용 횟수 확인
       const quotaInfo = await checkQuota();
       if (!quotaInfo.available) {
         toast.error(
@@ -916,7 +916,7 @@ export function QuoteCreator({
 
       if (quotaInfo.benefitType === "beta") {
         toast.info(
-          `베타 테스트 무료 이용 ${quotaInfo.remaining}/${quotaInfo.total}회 남았습니다.`
+          `베타 테스트 서비스 ${quotaInfo.remaining}/${quotaInfo.total}회 남았습니다.`
         );
       }
 

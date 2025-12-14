@@ -146,10 +146,10 @@ export function AuthPageMobile({ onAuthSuccess, onBack }: AuthPageMobileProps) {
 
 
   return (
-    <div className="min-h-screen flex flex-col relative" style={{ backgroundColor: '#f9fafb' }}>
+    <div className="min-h-screen flex flex-col relative" style={{ backgroundColor: 'var(--white)' }}>
       {/* Loading Overlay */}
       {isLoading && (
-        <div className="fixed inset-0 bg-white/95 flex flex-col items-center justify-center z-50">
+        <div className="fixed inset-0 bg-white flex flex-col items-center justify-center z-50">
           <Loader2 className="w-16 h-16 animate-spin mb-4" style={{ color: '#10b981' }} />
           <p className="text-xl mb-6" style={{ color: '#10b981' }}>
             {loadingMessage}

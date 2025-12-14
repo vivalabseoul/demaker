@@ -11,6 +11,7 @@ import {
   X,
   CreditCard,
   User,
+  Home,
 } from "lucide-react";
 import { logOut } from "../utils/supabase";
 import { toast } from "sonner";
@@ -66,6 +67,7 @@ export function Sidebar({
   };
 
   const menuItems = [
+    { id: "landing", label: "메인으로", icon: Home },
     { id: "create", label: "견적서 작성", icon: FileText },
     { id: "list", label: "견적서 목록", icon: BarChart3 },
     { id: "clients", label: "거래처 관리", icon: Users },
@@ -125,8 +127,9 @@ export function Sidebar({
         <div className="sidebar-header p-6 border-b border-[#e1e1e1]">
           <div className="flex items-center justify-between">
             <h2
-              className="sidebar-title"
+              className="sidebar-title cursor-pointer hover:opacity-80 transition-opacity"
               style={{ color: "var(--main-color)" }}
+              onClick={() => onPageChange('landing')}
             >
               개발견적메이커
             </h2>
@@ -159,7 +162,7 @@ export function Sidebar({
                     className="text-xs mb-2"
                     style={{ color: "var(--main-color)", fontWeight: 600 }}
                   >
-                    🚀 베타 무료 이용
+                    🚀 베타 서비스
                   </div>
                   <div className="text-xs" style={{ color: "#D6D3D1" }}>
                     {betaStatus.remaining} / {betaStatus.total}회 남았습니다

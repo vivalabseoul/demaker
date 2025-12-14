@@ -153,7 +153,7 @@ export function AuthDialog({ open, onOpenChange, onAuthSuccess }: AuthDialogProp
       <DialogContent className="sm:max-w-md">
         {/* Loading Overlay */}
         {isLoading && (
-          <div className="absolute inset-0 bg-white/95 flex flex-col items-center justify-center z-50 rounded-lg">
+          <div className="absolute inset-0 bg-white flex flex-col items-center justify-center z-50 rounded-lg">
             <Loader2 className="w-12 h-12 animate-spin mb-4" style={{ color: '#10b981' }} />
             <p className="text-lg mb-4" style={{ color: '#10b981' }}>
               {loadingMessage}

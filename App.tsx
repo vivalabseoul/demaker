@@ -15,6 +15,9 @@ import { AuthPageMobile } from './components/AuthPageMobile';
 import { ScrollToTop } from './components/ScrollToTop';
 import { Footer } from './components/Footer';
 import { Chatbot } from './components/Chatbot';
+import { TermsOfService } from './components/TermsOfService';
+import { PrivacyPolicy } from './components/PrivacyPolicy';
+import { CookieSettings } from './components/CookieSettings';
 import { onAuthChange } from './utils/supabase';
 import { Toaster } from './components/ui/sonner';
 import { toast } from 'sonner';
@@ -146,6 +149,20 @@ export default function App() {
         return <CustomerNoticePage />;
       case 'mypage':
         return <MyPage onNavigate={(page: string) => setCurrentPage(page)} />;
+      case 'landing':
+        return (
+          <LandingPage 
+            onLoginClick={() => setCurrentPage('create')}
+            onGetStarted={() => setCurrentPage('create')}
+            isLoggedIn={!!user}
+          />
+        );
+      case 'terms':
+        return <TermsOfService onBack={() => setCurrentPage('landing')} />;
+      case 'privacy':
+        return <PrivacyPolicy onBack={() => setCurrentPage('landing')} />;
+      case 'cookies':
+        return <CookieSettings onBack={() => setCurrentPage('landing')} />;
       default:
         return <QuoteCreator editingQuoteId={editingQuoteId} onEditComplete={() => setEditingQuoteId(null)} />;
     }
@@ -182,7 +199,7 @@ export default function App() {
         <div className="min-h-screen" style={{ backgroundColor: '#f9fafb' }}>
           {renderPage()}
         </div>
-        <Footer />
+        <Footer onNavigate={setCurrentPage} />
         
         {/* Desktop auth dialog */}
         {!isMobile && (
@@ -205,18 +222,20 @@ export default function App() {
     <>
       <div className="flex flex-col min-h-screen" style={{ backgroundColor: '#f9fafb' }}>
         <div className="flex flex-1">
-          <Sidebar 
-            currentPage={currentPage} 
-            onPageChange={setCurrentPage}
-            user={user}
-            onLoginClick={handleLoginClick}
-          />
+          {currentPage !== 'landing' && (
+            <Sidebar 
+              currentPage={currentPage} 
+              onPageChange={setCurrentPage}
+              user={user}
+              onLoginClick={handleLoginClick}
+            />
+          )}
           <main className={`main-content flex-1 ${currentPage === 'admin' ? 'overflow-hidden' : 'overflow-auto'}`}>
             <div className="mobile-only mobile-header-spacer"></div>
             {renderPage()}
           </main>
         </div>
-        <Footer />
+        <Footer onNavigate={setCurrentPage} />
       </div>
       
       {/* Desktop auth dialog */}
@@ -262,16 +281,16 @@ export default function App() {
         /* 태블릿: 768px ~ 1023px - 사이드바 제외한 너비 (18rem) */
         @media (min-width: 768px) and (max-width: 1023px) {
           .main-content {
-            margin-left: 18rem;
-            width: calc(100% - 18rem);
+            margin-left: ${currentPage === 'landing' ? '0' : '18rem'};
+            width: ${currentPage === 'landing' ? '100%' : 'calc(100% - 18rem)'};
           }
         }
         
         /* 데스크톱: 1024px 이상 - flex로 자동 조정 (16rem 사이드바) */
         @media (min-width: 1024px) {
           .main-content {
-            margin-left: 16rem;
-            width: calc(100% - 16rem);
+            margin-left: ${currentPage === 'landing' ? '0' : '16rem'};
+            width: ${currentPage === 'landing' ? '100%' : 'calc(100% - 16rem)'};
           }
         }
       `}</style>

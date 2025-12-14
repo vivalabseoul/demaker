@@ -39,6 +39,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { Navigation } from "./Navigation";
 // 이미지 import (public 폴더의 이미지 사용)
 // import.meta.env.BASE_URL을 사용하여 base path를 자동으로 포함
 const baseUrl = import.meta.env.BASE_URL || '/';
@@ -50,9 +51,10 @@ const gmain2Image = `${baseUrl}images/gmain2.jpg`;
 interface LandingPageProps {
   onLoginClick: () => void;
   onGetStarted: () => void;
+  isLoggedIn?: boolean;
 }
 
-export function LandingPage({ onLoginClick, onGetStarted }: LandingPageProps) {
+export function LandingPage({ onLoginClick, onGetStarted, isLoggedIn = false }: LandingPageProps) {
   const [selectedProductId, setSelectedProductId] = useState<string>("basic");
   const [visibleSections, setVisibleSections] = useState<Set<string>>(
     new Set()
@@ -126,7 +128,7 @@ export function LandingPage({ onLoginClick, onGetStarted }: LandingPageProps) {
   ];
 
   const benefits = [
-    "베타 테스터 3회 무료 발급",
+    "베타 테스터 서비스 3회 제공",
     "간편한 템플릿 기반 작성",
     "자동 금액 계산",
     "거래처 정보 자동 저장",
@@ -136,6 +138,7 @@ export function LandingPage({ onLoginClick, onGetStarted }: LandingPageProps) {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#f9fafb" }}>
+      <Navigation onLoginClick={onLoginClick} onGetStarted={onGetStarted} isLoggedIn={isLoggedIn} />
       {/* Hero Section */}
       <section
         className="relative w-full px-6 py-20 overflow-hidden"
@@ -228,7 +231,7 @@ export function LandingPage({ onLoginClick, onGetStarted }: LandingPageProps) {
                   }}
                 >
                   <span className="relative z-10 flex items-center">
-                    무료로 시작하기
+                    지금 시작하기
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </span>
                   <div
@@ -760,7 +763,7 @@ export function LandingPage({ onLoginClick, onGetStarted }: LandingPageProps) {
             지금 바로 시작하세요
           </h2>
           <p className="text-xl mb-8" style={{ color: "#D6D3D1" }}>
-            베타 기간 동안 주 3회까지 무료로 발급해 보세요
+            베타 기간 동안 서비스를 경험해 보세요
           </p>
           <Button
             onClick={onGetStarted}
@@ -773,7 +776,7 @@ export function LandingPage({ onLoginClick, onGetStarted }: LandingPageProps) {
               color: "var(--main-color)",
             }}
           >
-            무료로 시작하기
+            지금 시작하기
             <ArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </div>
