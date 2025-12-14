@@ -1698,7 +1698,7 @@ export function QuoteCreator({
                     type="number"
                     value={expenseRate}
                     onChange={(e) => setExpenseRate(Number(e.target.value))}
-                    className="w-20"
+                    className="w-22"
                   />
                   <span>%</span>
                 </div>
@@ -1712,7 +1712,7 @@ export function QuoteCreator({
                       setTechnicalFeeRate(value);
                     }}
                     placeholder="미설정"
-                    className="w-20"
+                    className="w-22"
                   />
                   <span>%</span>
                 </div>
@@ -1726,9 +1726,8 @@ export function QuoteCreator({
                       setFpCalculationRate(value);
                     }}
                     placeholder="미설정"
-                    className="w-20"
+                    className="w-22"
                   />
-                  <span>%</span>
                 </div>
               </div>
 
@@ -1750,7 +1749,7 @@ export function QuoteCreator({
                   )}
                   {fpCalculationRate && fpCalculationAmount > 0 && (
                     <div className="flex justify-between">
-                      <p>FP산정료 ({fpCalculationRate}%)</p>
+                      <p>FP산정료 ({fpCalculationRate})</p>
                       <p>{formatCurrency(fpCalculationAmount)}원</p>
                     </div>
                   )}
@@ -1808,68 +1807,76 @@ export function QuoteCreator({
                     </div>
                   )}
 
-                  {/* 환율 선택 */}
-                  <div className="pt-3 border-t border-[#e1e1e1]">
-                    <Label
-                      htmlFor="currencyType"
-                      className="text-sm mb-2 block"
-                    >
-                      달러 환산 (선택사항)
-                    </Label>
-                    <Select
-                      value={currencyType || "원화선택"}
-                      onValueChange={(value) =>
-                        setCurrencyType(value as CurrencyType)
-                      }
-                    >
-                      <SelectTrigger id="currencyType" className="w-full">
-                        <SelectValue placeholder="통화 선택" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="원화선택">원화만 표시</SelectItem>
-                        <SelectItem value="USD">미국 달러 (USD)</SelectItem>
-                        <SelectItem value="CAD">캐나다 달러 (CAD)</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {currencyType && (
-                      <div className="mt-2 text-sm text-gray-600">
-                        {loadingExchangeRate ? (
-                          <span>환율 로딩 중...</span>
-                        ) : (
-                          <>
-                            <span>
-                              환율: 1원 ={" "}
-                              {exchangeRate.toFixed(6).replace(/\.0+$/, "")}{" "}
-                              {currencyType}
-                            </span>
-                            {totalAmountDollar !== undefined && (
-                              <div className="mt-1 font-semibold text-base">
-                                총액:{" "}
-                                {formatDollar(totalAmountDollar, currencyType)}
-                              </div>
+                  {/* 환율 선택 & 총 금액 */}
+                  <div className="pt-3 border-t-2 border-[#e1e1e1]">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* 달러 환산 */}
+                      <div>
+                        <Label
+                          htmlFor="currencyType"
+                          className="text-sm mb-2 block"
+                        >
+                          달러 환산 (선택사항)
+                        </Label>
+                        <Select
+                          value={currencyType || "원화선택"}
+                          onValueChange={(value) =>
+                            setCurrencyType(value as CurrencyType)
+                          }
+                        >
+                          <SelectTrigger id="currencyType" className="w-full">
+                            <SelectValue placeholder="통화 선택" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="원화선택">원화만 표시</SelectItem>
+                            <SelectItem value="USD">미국 달러 (USD)</SelectItem>
+                            <SelectItem value="CAD">캐나다 달러 (CAD)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        {currencyType && (
+                          <div className="mt-2 text-sm text-gray-600">
+                            {loadingExchangeRate ? (
+                              <span>환율 로딩 중...</span>
+                            ) : (
+                              <>
+                                <span>
+                                  환율: 1원 ={" "}
+                                  {exchangeRate.toFixed(6).replace(/\.0+$/, "")}{" "}
+                                  {currencyType}
+                                </span>
+                                {totalAmountDollar !== undefined && (
+                                  <div className="mt-1 font-semibold text-base">
+                                    총액:{" "}
+                                    {formatDollar(totalAmountDollar, currencyType)}
+                                  </div>
+                                )}
+                              </>
                             )}
-                          </>
+                          </div>
                         )}
                       </div>
-                    )}
-                  </div>
 
-                  <div className="flex justify-between pt-3 border-t-2 border-[#e1e1e1]">
-                    <h3>
-                      <strong>총 금액</strong>
-                    </h3>
-                    <div className="text-right">
-                      <h3 style={{ color: "var(--main-color)" }}>
-                        <strong>{formatCurrency(totalAmount)}원</strong>
-                      </h3>
-                      {totalAmountDollar !== undefined && currencyType && (
-                        <div
-                          className="text-sm font-normal mt-1"
-                          style={{ color: "#666" }}
-                        >
-                          ({formatDollar(totalAmountDollar, currencyType)})
+                      {/* 총 금액 */}
+                      <div className="flex flex-col justify-end">
+                        <div className="flex justify-between items-end">
+                          <h3>
+                            <strong>총 금액</strong>
+                          </h3>
+                          <div className="text-right">
+                            <h3 style={{ color: "var(--main-color)" }}>
+                              <strong>{formatCurrency(totalAmount)}원</strong>
+                            </h3>
+                            {totalAmountDollar !== undefined && currencyType && (
+                              <div
+                                className="text-sm font-normal mt-1"
+                                style={{ color: "#666" }}
+                              >
+                                ({formatDollar(totalAmountDollar, currencyType)})
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </div>
                   </div>
                 </div>
