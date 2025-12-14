@@ -68,11 +68,11 @@ export function Sidebar({
 
   const menuItems = [
     { id: "landing", label: "메인으로", icon: Home },
+    { id: "admin", label: "노임 설정", icon: Settings },
     { id: "create", label: "견적서 작성", icon: FileText },
     { id: "list", label: "견적서 목록", icon: BarChart3 },
     { id: "clients", label: "거래처 관리", icon: Users },
     { id: "sales", label: "매출 관리", icon: TrendingUp },
-    { id: "admin", label: "노임 설정", icon: Settings },
     { id: "company", label: "회사 정보", icon: Building2 },
     { id: "notice", label: "고객 안내문구", icon: FileText },
     { id: "payment", label: "구독 관리", icon: CreditCard },
