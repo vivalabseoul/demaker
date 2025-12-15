@@ -607,6 +607,30 @@ export const deleteQuote = async (id: string): Promise<void> => {
   }
 };
 
+export const deleteAllQuotes = async (): Promise<void> => {
+  const userId = await getCurrentUserId();
+  if (!userId) {
+    throw new Error('User not authenticated');
+  }
+
+  try {
+    const { error } = await supabase
+      .from('quotes')
+      .delete()
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('❌ Error deleting all quotes:', error);
+      throw error;
+    }
+
+    console.log('✅ All quotes deleted successfully');
+  } catch (error: any) {
+    console.error('❌ Error in deleteAllQuotes:', error);
+    throw error;
+  }
+};
+
 export const getQuoteById = async (id: string): Promise<Quote | undefined> => {
   try {
     const userId = await getCurrentUserId();

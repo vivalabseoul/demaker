@@ -379,7 +379,7 @@ export function PaymentPage() {
                       >
                         {product.period === "monthly" ? "/월" : "/연간"}
                       </div>
-                      {product.paidQuota && product.freeQuota && (
+                      {product.paidQuota != null && product.freeQuota != null && (
                         <div
                           className="text-sm mt-2 font-semibold"
                           style={{ color: "var(--main-color)" }}

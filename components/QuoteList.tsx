@@ -16,7 +16,7 @@ import { Card, CardContent, CardHeader } from "./ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { LoadingOverlay } from "./LoadingOverlay";
 import { Quote } from "../types/quote";
-import { getQuotes, deleteQuote, formatCurrency, getCustomerNotice, getPaymentInfo, CustomerNotice, BankAccountInfo } from "../utils/supabaseStore";
+import { getQuotes, deleteQuote, deleteAllQuotes, formatCurrency, getCustomerNotice, getPaymentInfo, CustomerNotice, BankAccountInfo } from "../utils/supabaseStore";
 import { generateQuotePDF, generateQuoteHTML } from "../utils/pdfGenerator";
 import { formatDollar, convertToDollar } from "../utils/exchangeRate";
 import { toast } from "sonner";
@@ -187,6 +187,23 @@ export function QuoteList({ onEditQuote }: QuoteListProps = {}) {
     }
   };
 
+  const handleDeleteAll = async () => {
+    if (quotes.length === 0) {
+      toast.warning("삭제할 견적서가 없습니다.");
+      return;
+    }
+
+    if (confirm(`정말 모든 견적서(${quotes.length}개)를 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없습니다.`)) {
+      try {
+        await deleteAllQuotes();
+        await loadQuotes();
+        toast.success("모든 견적서가 삭제되었습니다.");
+      } catch (error) {
+        toast.error("삭제 중 오류가 발생했습니다.");
+      }
+    }
+  };
+
   const handleView = (quote: Quote) => {
     setSelectedQuote(quote);
     setIsDialogOpen(true);
@@ -301,6 +318,22 @@ export function QuoteList({ onEditQuote }: QuoteListProps = {}) {
             프리랜서
           </Button>
         </div>
+
+        {/* 전체 삭제 버튼 */}
+        {quotes.length > 0 && (
+          <Button
+            onClick={handleDeleteAll}
+            variant="outline"
+            className="w-full sm:w-auto"
+            style={{
+              borderColor: "#ef4444",
+              color: "#ef4444",
+            }}
+          >
+            <Trash2 className="w-4 h-4 mr-2" />
+            전체 삭제 ({quotes.length}개)
+          </Button>
+        )}
       </div>
 
       {/* 모바일 안내 메시지 */}
@@ -630,17 +663,26 @@ export function QuoteList({ onEditQuote }: QuoteListProps = {}) {
                       </p>
                     )}
                   </div>
-                  <Button
-                    onClick={() => handleDownloadPDF(selectedQuote)}
-                    style={{
-                      backgroundColor: "var(--main-color)",
-                      color: "var(--white)",
-                    }}
-                    className="shrink-0 w-full sm:w-auto"
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    PDF 다운로드
-                  </Button>
+                  <div className="flex gap-2 w-full sm:w-auto">
+                    <Button
+                      onClick={() => handleDownloadPDF(selectedQuote)}
+                      style={{
+                        backgroundColor: "var(--main-color)",
+                        color: "var(--white)",
+                      }}
+                      className="shrink-0 flex-1 sm:flex-initial"
+                    >
+                      <Download className="w-4 h-4 mr-2" />
+                      PDF 다운로드
+                    </Button>
+                    <Button
+                      onClick={() => setIsDialogOpen(false)}
+                      variant="outline"
+                      className="shrink-0 flex-1 sm:flex-initial"
+                    >
+                      목록으로
+                    </Button>
+                  </div>
                 </div>
               </DialogHeader>
 

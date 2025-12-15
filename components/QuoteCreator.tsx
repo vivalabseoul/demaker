@@ -1994,16 +1994,16 @@ export function QuoteCreator({
                           <strong>
                             {formatCurrency(subtotal + expenseAmount)}원
                           </strong>
-                          {currencyType && exchangeRate > 0 && (
+                          {currencyType && currencyType !== null && exchangeRate > 0 && (
                             <p className="text-sm text-gray-500">
                               (
                               {formatDollar(
                                 convertToDollar(
                                   subtotal + expenseAmount,
-                                  currencyType,
+                                  currencyType as "USD" | "CAD",
                                   exchangeRate
                                 ),
-                                currencyType
+                                currencyType as "USD" | "CAD"
                               )}
                               )
                             </p>
@@ -2067,16 +2067,16 @@ export function QuoteCreator({
                           <strong style={{ color: "var(--sub-color)" }}>
                             {formatCurrency(aiSuggestion.totalAmount)}원
                           </strong>
-                          {currencyType && exchangeRate > 0 && (
+                          {currencyType && currencyType !== null && exchangeRate > 0 && (
                             <p className="text-sm text-gray-500">
                               (
                               {formatDollar(
                                 convertToDollar(
                                   aiSuggestion.totalAmount,
-                                  currencyType,
+                                  currencyType as "USD" | "CAD",
                                   exchangeRate
                                 ),
-                                currencyType
+                                currencyType as "USD" | "CAD"
                               )}
                               )
                             </p>

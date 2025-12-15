@@ -54,6 +54,8 @@ export interface Product {
   description?: string;
   originalPrice?: number; // 원래 가격 (1000원 × 횟수)
   discountRate?: number; // 할인율 (%)
+  paidQuota?: number; // 유료 횟수
+  freeQuota?: number; // 무료 횟수
 }
 
 // 구독 정보
